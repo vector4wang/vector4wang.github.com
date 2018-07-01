@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "15fc8e87"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="大家好，我是祁同伟，由于剧透的太多，都知道我是害死陈海的幕后元凶，所以我现在必须跑路了，由于资金被银行冻结所以现在发起众筹，等我跑到美国和丁义珍副市长重振雄风后，会给你一百万，为表示诚意，本人愿意奉上为赵立春省长父亲哭坟的视频一部。">
+<meta name="keywords" content="API">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何优雅的格式化接口">
+<meta property="og:url" content="http://blog.wangxc.club/2017/04/24/如何优雅的格式化接口/index.html">
+<meta property="og:site_name" content="冬与晨">
+<meta property="og:description" content="大家好，我是祁同伟，由于剧透的太多，都知道我是害死陈海的幕后元凶，所以我现在必须跑路了，由于资金被银行冻结所以现在发起众筹，等我跑到美国和丁义珍副市长重振雄风后，会给你一百万，为表示诚意，本人愿意奉上为赵立春省长父亲哭坟的视频一部。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-c9c885c5aea40d53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-ec1e32a6b3a93b18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-3266ca732f3aa943.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-21c1b537d9a6b597.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-06-29T13:58:50.296Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何优雅的格式化接口">
+<meta name="twitter:description" content="大家好，我是祁同伟，由于剧透的太多，都知道我是害死陈海的幕后元凶，所以我现在必须跑路了，由于资金被银行冻结所以现在发起众筹，等我跑到美国和丁义珍副市长重振雄风后，会给你一百万，为表示诚意，本人愿意奉上为赵立春省长父亲哭坟的视频一部。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3167229-c9c885c5aea40d53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.wangxc.club/2017/04/24/如何优雅的格式化接口/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>如何优雅的格式化接口 | 冬与晨</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-102769182-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-102769182-1');
+</script>
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?809d5610fca8eaff344d9a698536110d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    </div>
+<a href="https://github.com/vector4wang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">冬与晨</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wangxc.club/2017/04/24/如何优雅的格式化接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wangxc">
+      <meta itemprop="description" content="革命尚未成功，同志还需努力~">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="冬与晨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">如何优雅的格式化接口
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-04-24 22:31:16" itemprop="dateCreated datePublished" datetime="2017-04-24T22:31:16+08:00">2017-04-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-29 21:58:50" itemprop="dateModified" datetime="2018-06-29T21:58:50+08:00">2018-06-29</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/24/如何优雅的格式化接口/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2017/04/24/如何优雅的格式化接口/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>大家好，我是祁同伟，由于剧透的太多，都知道我是害死陈海的幕后元凶，所以我现在必须跑路了，由于资金被银行冻结所以现在发起众筹，等我跑到美国和丁义珍副市长重振雄风后，会给你一百万，为表示诚意，本人愿意奉上为赵立春省长父亲哭坟的视频一部。</p>
+</blockquote>
+<a id="more"></a>
+<p>本人亲身经历，不喜勿喷!</p>
+<p>　　刚毕业的我到现在已经是第二次换工作了，前两个公司都是创业型公司，没有人来review我的代码，这就会让我写代码的会很随意、代码不是特别规范，逻辑不够那么的严谨（以后会说），今个儿就简单的说一说接口的规范和后台的写法。</p>
+<p>　　我原先是使用JSONObject作为返回对象，前台需要什么就put什么，因为前端是就是我，我就是前段，所以接口这个问题就随便随便了，有的时候我也在想该把接口稍微整理一下，搞一个基类什么的，这样写法会得到统一使用的人（除我之外）也能很方便的使用。</p>
+<p>最近花时间稍作整理（想找一些优秀的源码的话，直接去GitHub上去搜，切记切记切记）</p>
+<p>再没有去动手之前，我思考一番，简单画了个草图</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3167229-c9c885c5aea40d53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="想法.png"></p>
+<p>基于思考去查找并加上验证，我创建了两个类<br>一个是返回基类<code>BaseResp&lt;T&gt;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.quick.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseResp</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> code;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回信息描述</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String message;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回数据</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> currentTime;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCode</span><span class="params">(<span class="keyword">int</span> code)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMessage</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getCurrentTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> currentTime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCurrentTime</span><span class="params">(<span class="keyword">long</span> currentTime)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.currentTime = currentTime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseResp</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code 错误码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> message 信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> data 数据</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseResp</span><span class="params">(<span class="keyword">int</span> code, String message, T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">        <span class="keyword">this</span>.message = message;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">        <span class="keyword">this</span>.currentTime = <span class="keyword">new</span> Date().getTime();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 不带数据的返回结果</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> resultStatus</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseResp</span><span class="params">(ResultStatus resultStatus)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = resultStatus.getErrorCode();</span><br><span class="line">        <span class="keyword">this</span>.message = resultStatus.getErrorMsg();</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">        <span class="keyword">this</span>.currentTime = <span class="keyword">new</span> Date().getTime();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 带数据的返回结果</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> resultStatus</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> data</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseResp</span><span class="params">(ResultStatus resultStatus, T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = resultStatus.getErrorCode();</span><br><span class="line">        <span class="keyword">this</span>.message = resultStatus.getErrorMsg();</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">        <span class="keyword">this</span>.currentTime = <span class="keyword">new</span> Date().getTime();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个是错误码枚举类<code>ResultStatus</code>，并且总结了一些常见的错误<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.quick.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 错误码</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> vector</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> ResultStatus &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// -1为通用失败（根据ApiResult.java中的构造方法注释而来）</span></span><br><span class="line">	FAIL(-<span class="number">1</span>, <span class="string">"common fail"</span>),</span><br><span class="line">	<span class="comment">// 0为成功</span></span><br><span class="line">	SUCCESS(<span class="number">0</span>, <span class="string">"success"</span>),</span><br><span class="line"></span><br><span class="line">	error_pic_file(<span class="number">3</span>,<span class="string">"非法图片文件"</span>),</span><br><span class="line">	error_pic_upload(<span class="number">4</span>,<span class="string">"图片上传失败"</span>),</span><br><span class="line">	error_record_not_found(<span class="number">5</span>, <span class="string">"没有找到对应的数据"</span>),</span><br><span class="line">	error_max_page_size(<span class="number">6</span>, <span class="string">"请求记录数超出每次请求最大允许值"</span>),</span><br><span class="line">	error_create_failed(<span class="number">7</span>,<span class="string">"新增失败"</span>),</span><br><span class="line">	error_update_failed(<span class="number">8</span>,<span class="string">"修改失败"</span>),</span><br><span class="line">	error_delete_failed(<span class="number">9</span>,<span class="string">"删除失败"</span>),</span><br><span class="line">	error_search_failed(<span class="number">10</span>,<span class="string">"查询失败"</span>),</span><br><span class="line">	error_count_failed(<span class="number">11</span>,<span class="string">"查询数据总数失败"</span>),</span><br><span class="line">	error_string_to_obj(<span class="number">12</span>,<span class="string">"字符串转java对象失败"</span>),</span><br><span class="line">	error_invalid_argument(<span class="number">13</span>,<span class="string">"参数不合法"</span>),</span><br><span class="line">	error_update_not_allowed(<span class="number">14</span>,<span class="string">"更新失败：%s"</span>),</span><br><span class="line">	error_duplicated_data(<span class="number">15</span>,<span class="string">"数据已存在"</span>),</span><br><span class="line">	error_unknown_database_operation(<span class="number">16</span>,<span class="string">"未知数据库操作失败，请联系管理员解决"</span>),</span><br><span class="line">	error_column_unique(<span class="number">17</span>,<span class="string">"字段s%违反唯一约束性条件"</span>),</span><br><span class="line">	error_file_download(<span class="number">18</span>,<span class="string">"文件下载失败"</span>),</span><br><span class="line">	error_file_upload(<span class="number">19</span>,<span class="string">"文件上传失败"</span>),</span><br><span class="line"></span><br><span class="line">	<span class="comment">//100-511为http 状态码</span></span><br><span class="line">	<span class="comment">// --- 4xx Client Error ---</span></span><br><span class="line">	http_status_bad_request(<span class="number">400</span>, <span class="string">"Bad Request"</span>),</span><br><span class="line">	http_status_unauthorized(<span class="number">401</span>, <span class="string">"Unauthorized"</span>),</span><br><span class="line">	http_status_payment_required(<span class="number">402</span>, <span class="string">"Payment Required"</span>),</span><br><span class="line">	http_status_forbidden(<span class="number">403</span>, <span class="string">"Forbidden"</span>),</span><br><span class="line">	http_status_not_found(<span class="number">404</span>, <span class="string">"Not Found"</span>),</span><br><span class="line">	http_status_method_not_allowed(<span class="number">405</span>, <span class="string">"Method Not Allowed"</span>),</span><br><span class="line">	http_status_not_acceptable(<span class="number">406</span>, <span class="string">"Not Acceptable"</span>),</span><br><span class="line">	http_status_proxy_authentication_required(<span class="number">407</span>, <span class="string">"Proxy Authentication Required"</span>),</span><br><span class="line">	http_status_request_timeout(<span class="number">408</span>, <span class="string">"Request Timeout"</span>),</span><br><span class="line">	http_status_conflict(<span class="number">409</span>, <span class="string">"Conflict"</span>),</span><br><span class="line">	http_status_gone(<span class="number">410</span>, <span class="string">"Gone"</span>),</span><br><span class="line">	http_status_length_required(<span class="number">411</span>, <span class="string">"Length Required"</span>),</span><br><span class="line">	http_status_precondition_failed(<span class="number">412</span>, <span class="string">"Precondition Failed"</span>),</span><br><span class="line">	http_status_payload_too_large(<span class="number">413</span>, <span class="string">"Payload Too Large"</span>),</span><br><span class="line">	http_status_uri_too_long(<span class="number">414</span>, <span class="string">"URI Too Long"</span>),</span><br><span class="line">	http_status_unsupported_media_type(<span class="number">415</span>, <span class="string">"Unsupported Media Type"</span>),</span><br><span class="line">	http_status_requested_range_not_satisfiable(<span class="number">416</span>, <span class="string">"Requested range not satisfiable"</span>),</span><br><span class="line">	http_status_expectation_failed(<span class="number">417</span>, <span class="string">"Expectation Failed"</span>),</span><br><span class="line">	http_status_im_a_teapot(<span class="number">418</span>, <span class="string">"I'm a teapot"</span>),</span><br><span class="line">	http_status_unprocessable_entity(<span class="number">422</span>, <span class="string">"Unprocessable Entity"</span>),</span><br><span class="line">	http_status_locked(<span class="number">423</span>, <span class="string">"Locked"</span>),</span><br><span class="line">	http_status_failed_dependency(<span class="number">424</span>, <span class="string">"Failed Dependency"</span>),</span><br><span class="line">	http_status_upgrade_required(<span class="number">426</span>, <span class="string">"Upgrade Required"</span>),</span><br><span class="line">	http_status_precondition_required(<span class="number">428</span>, <span class="string">"Precondition Required"</span>),</span><br><span class="line">	http_status_too_many_requests(<span class="number">429</span>, <span class="string">"Too Many Requests"</span>),</span><br><span class="line">	http_status_request_header_fields_too_large(<span class="number">431</span>, <span class="string">"Request Header Fields Too Large"</span>),</span><br><span class="line"></span><br><span class="line">	<span class="comment">// --- 5xx Server Error ---</span></span><br><span class="line">	http_status_internal_server_error(<span class="number">500</span>, <span class="string">"系统错误"</span>),</span><br><span class="line">	http_status_not_implemented(<span class="number">501</span>, <span class="string">"Not Implemented"</span>),</span><br><span class="line">	http_status_bad_gateway(<span class="number">502</span>, <span class="string">"Bad Gateway"</span>),</span><br><span class="line">	http_status_service_unavailable(<span class="number">503</span>, <span class="string">"Service Unavailable"</span>),</span><br><span class="line">	http_status_gateway_timeout(<span class="number">504</span>, <span class="string">"Gateway Timeout"</span>),</span><br><span class="line">	http_status_http_version_not_supported(<span class="number">505</span>, <span class="string">"HTTP Version not supported"</span>),</span><br><span class="line">	http_status_variant_also_negotiates(<span class="number">506</span>, <span class="string">"Variant Also Negotiates"</span>),</span><br><span class="line">	http_status_insufficient_storage(<span class="number">507</span>, <span class="string">"Insufficient Storage"</span>),</span><br><span class="line">	http_status_loop_detected(<span class="number">508</span>, <span class="string">"Loop Detected"</span>),</span><br><span class="line">	http_status_bandwidth_limit_exceeded(<span class="number">509</span>, <span class="string">"Bandwidth Limit Exceeded"</span>),</span><br><span class="line">	http_status_not_extended(<span class="number">510</span>, <span class="string">"Not Extended"</span>),</span><br><span class="line">	http_status_network_authentication_required(<span class="number">511</span>, <span class="string">"Network Authentication Required"</span>),</span><br><span class="line"></span><br><span class="line">	<span class="comment">// --- 8xx common error ---</span></span><br><span class="line">	EXCEPTION(<span class="number">800</span>, <span class="string">"exception"</span>),</span><br><span class="line">	INVALID_PARAM(<span class="number">801</span>, <span class="string">"invalid.param"</span>),</span><br><span class="line">	INVALID_PRIVI(<span class="number">802</span>, <span class="string">"invalid.privi"</span>),</span><br><span class="line"></span><br><span class="line">	<span class="comment">//1000以内是系统错误，</span></span><br><span class="line">	no_login(<span class="number">1000</span>,<span class="string">"没有登录"</span>),</span><br><span class="line">	config_error(<span class="number">1001</span>,<span class="string">"参数配置表错误"</span>),</span><br><span class="line">	user_exist(<span class="number">1002</span>,<span class="string">"用户名已存在"</span>),</span><br><span class="line">	userpwd_not_exist(<span class="number">1003</span>,<span class="string">"用户名不存在或者密码错误"</span>),</span><br><span class="line">        ;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ResultStatus.class);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> code;</span><br><span class="line">	<span class="keyword">private</span> String msg;</span><br><span class="line"></span><br><span class="line">	ResultStatus(<span class="keyword">int</span> code, String msg)&#123;</span><br><span class="line">		<span class="keyword">this</span>.code = code;</span><br><span class="line">		<span class="keyword">this</span>.msg = msg;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getCode</span><span class="params">(String define)</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> ResultStatus.valueOf(define).code;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">			LOGGER.error(<span class="string">"undefined error code: &#123;&#125;"</span>, define);</span><br><span class="line">			<span class="keyword">return</span> FAIL.getErrorCode();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getMsg</span><span class="params">(String define)</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> ResultStatus.valueOf(define).msg;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IllegalArgumentException e) &#123;</span><br><span class="line">			LOGGER.error(<span class="string">"undefined error code: &#123;&#125;"</span>, define);</span><br><span class="line">			<span class="keyword">return</span> FAIL.getErrorMsg();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getMsg</span><span class="params">(<span class="keyword">int</span> code)</span></span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(ResultStatus err : ResultStatus.values())&#123;</span><br><span class="line">			<span class="keyword">if</span>(err.code==code)&#123;</span><br><span class="line">				<span class="keyword">return</span> err.msg;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"errorCode not defined "</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getErrorCode</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> code;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getErrorMsg</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> msg;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>验证的结果如下</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3167229-ec1e32a6b3a93b18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="集合"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3167229-3266ca732f3aa943.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="map"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3167229-21c1b537d9a6b597.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="字符串"></p>
+<p>这样写，既节省时间，也让别人看的舒服，用的开心</p>
+<p>代码为<a href="https://github.com/VBMHJQS/springbootquick/tree/api-norms" target="_blank" rel="noopener">api-norms</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+          
+            
+          
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://i.loli.net/2017/12/29/5a4632028eaeb.jpg" alt="wangxc 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://i.loli.net/2017/12/29/5a46320234b1d.jpg" alt="wangxc 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+              -------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------
+        </div>
+    
+</div>
+
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/API/" rel="tag"><i class="fa fa-tag"></i> API</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/24/Javaer，你必须要了解的ExecutorService/" rel="next" title="Javaer，你必须要了解的ExecutorService">
+                <i class="fa fa-chevron-left"></i> Javaer，你必须要了解的ExecutorService
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/24/springboot多模块(modules)开发/" rel="prev" title="springboot多模块(modules)开发">
+                springboot多模块(modules)开发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="wangxc" />
+            
+              <p class="site-author-name" itemprop="name">wangxc</p>
+              <p class="site-description motion-element" itemprop="description">革命尚未成功，同志还需努力~</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">89</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/vector4wang" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:vector4wang@qq.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.jianshu.com/u/223a1314e818" target="_blank" title="简书" rel="external nofollow"><i class="fa fa-fw fa-book"></i>简书</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qqhjqs?viewmode=contents" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/BMHJQS" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/" target="_blank" title="FB Page" rel="external nofollow"><i class="fa fa-fw fa-facebook-official"></i>FB Page</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxc</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Mist</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'YdGFHBfuDwObik8qwCeRAWgr-gzGzoHsz',
+        appKey: 'oFpbJwmMQf98DfFDUlzE5Fai',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

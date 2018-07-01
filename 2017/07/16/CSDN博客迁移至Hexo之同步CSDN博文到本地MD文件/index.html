@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "15fc8e87"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="自从我把Github+Hexo的博客“交给”Google之后，每天都有几十位的访客2333，访客少的原因有许多，一个是文章较少，二是百度虫子没有爬到我的页面，就会导致即就算直接搜索博客里面的内容，百度都不会返回我的地址，就这个情况我已经使用百度和谷歌去处理了，至于文章较少的问题，我打算做个博客迁移！">
+<meta name="keywords" content="csdn,html2md,jsoup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件">
+<meta property="og:url" content="http://blog.wangxc.club/2017/07/16/CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件/index.html">
+<meta property="og:site_name" content="冬与晨">
+<meta property="og:description" content="自从我把Github+Hexo的博客“交给”Google之后，每天都有几十位的访客2333，访客少的原因有许多，一个是文章较少，二是百度虫子没有爬到我的页面，就会导致即就算直接搜索博客里面的内容，百度都不会返回我的地址，就这个情况我已经使用百度和谷歌去处理了，至于文章较少的问题，我打算做个博客迁移！">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-8e35d1a47bdfdfa5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-35f1d8729e51c7f8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-3fdc4ec10cafa351.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-06-29T13:58:50.288Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件">
+<meta name="twitter:description" content="自从我把Github+Hexo的博客“交给”Google之后，每天都有几十位的访客2333，访客少的原因有许多，一个是文章较少，二是百度虫子没有爬到我的页面，就会导致即就算直接搜索博客里面的内容，百度都不会返回我的地址，就这个情况我已经使用百度和谷歌去处理了，至于文章较少的问题，我打算做个博客迁移！">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3167229-8e35d1a47bdfdfa5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.wangxc.club/2017/07/16/CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件 | 冬与晨</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-102769182-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-102769182-1');
+</script>
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?809d5610fca8eaff344d9a698536110d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    </div>
+<a href="https://github.com/vector4wang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">冬与晨</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wangxc.club/2017/07/16/CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wangxc">
+      <meta itemprop="description" content="革命尚未成功，同志还需努力~">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="冬与晨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-07-16 20:13:50" itemprop="dateCreated datePublished" datetime="2017-07-16T20:13:50+08:00">2017-07-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-29 21:58:50" itemprop="dateModified" datetime="2018-06-29T21:58:50+08:00">2018-06-29</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/16/CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2017/07/16/CSDN博客迁移至Hexo之同步CSDN博文到本地MD文件/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>自从我把Github+Hexo的博客“交给”Google之后，每天都有几十位的访客2333，访客少的原因有许多，一个是文章较少，二是百度虫子没有爬到我的页面，就会导致即就算直接搜索博客里面的内容，百度都不会返回我的地址，就这个情况我已经使用百度和谷歌去处理了，至于文章较少的问题，我打算做个博客迁移！<br><a id="more"></a></p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1883403&auto=1&height=66"></iframe>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/3167229-8e35d1a47bdfdfa5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="夜班敲声-凌晨三点"></p>
+<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>　　自从我把Github+Hexo的博客“交给”Google之后，每天都有几十位的访客2333，访客少的原因有许多，一个是文章较少，二是百度虫子没有爬到我的页面，就会导致即就算直接搜索博客里面的内容，百度都不会返回我的地址，就这个情况我已经使用百度和谷歌去处理了，至于文章较少的问题，我打算做个博客迁移！<br>　　我大三到现在的所有博客全部都在CSDN上，所以要对CSDN做一个文章导出功能，官方提供了工具，然而我昨天试了并不行。有博友自己提供了工具，是用python写的，本来打算用的，但是自己电脑没有装python，一时兴起决定用java写个小程序，自己动手丰衣足食，说干就干，整体的思路如下图：<br><img src="http://upload-images.jianshu.io/upload_images/3167229-35f1d8729e51c7f8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="大体的流程"><br><strong>使用Jsoup去获取页面并解析—&gt;将对应html代码转换成MD文件存储到本地—&gt;最后放到对应位置，执行<code>hexo g</code>和<code>hexo d</code>命令发布到Github上</strong></p>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><h4 id="解析CSDN"><a href="#解析CSDN" class="headerlink" title="解析CSDN"></a>解析CSDN</h4><p>　　比较庆幸的是CSDN并没有对“爬虫”做相关的处理，也就是说，我使用Jsoup获取页面并解析是没有任何限制的(至少我没有遇到)，这里需要做个简单的逻辑来获取<code>article/list</code>页面的所有文章列表url包括摘要。在接着根据url将对应文章的内容结构化解析出来，代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">String url = HOST_URL + username + <span class="string">"/article/list/"</span> + <span class="number">1</span>;</span><br><span class="line">Document parse = Jsoup.parse(<span class="keyword">new</span> URL(url), <span class="number">5000</span>);</span><br><span class="line">Element element = parse.select(<span class="string">"div#papelist span"</span>).get(<span class="number">0</span>);</span><br><span class="line">String papelistInfo = element.text();</span><br><span class="line">String totalPage = papelistInfo.split(<span class="string">"共"</span>)[<span class="number">1</span>].split(<span class="string">"页"</span>)[<span class="number">0</span>]; <span class="comment">// 有点暴力，需注意</span></span><br><span class="line"><span class="keyword">int</span> total = Integer.valueOf(totalPage);</span><br><span class="line">System.out.println(total);</span><br><span class="line">Map&lt;String,String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= total; i++) &#123;</span><br><span class="line">    String listUrl = HOST_URL + username + <span class="string">"/article/list/"</span> + i;</span><br><span class="line">    Document doc = Jsoup.parse(<span class="keyword">new</span> URL(listUrl), <span class="number">5000</span>);</span><br><span class="line">    Elements topSelect = doc.select(TOP_XPATH);</span><br><span class="line">    Elements normalSelect = doc.select(NOMAIL_QUERY);</span><br><span class="line">    <span class="keyword">for</span> (Element item : topSelect) &#123;</span><br><span class="line">        map.put(item.select(<span class="string">".article_title  h1  span  a"</span>).get(<span class="number">0</span>).attr(<span class="string">"href"</span>),item.select(<span class="string">".article_description"</span>).get(<span class="number">0</span>).text());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (Element item : normalSelect) &#123;</span><br><span class="line">        map.put(item.select(<span class="string">".article_title  h1  span  a"</span>).get(<span class="number">0</span>).attr(<span class="string">"href"</span>),item.select(<span class="string">".article_description"</span>).get(<span class="number">0</span>).text());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Set&lt;String&gt; strings = map.keySet();</span><br><span class="line"><span class="keyword">for</span>(String item:strings)&#123;</span><br><span class="line">    Document doc = Jsoup.parse(<span class="keyword">new</span> URL(HOST_URL + item), <span class="number">5000</span>);</span><br><span class="line">    BlogModel bm = <span class="keyword">new</span> BlogModel();</span><br><span class="line">    bm.setTitle(doc.select(<span class="string">"#article_details &gt; div.article_title &gt; h1 &gt; span &gt; a"</span>).text());</span><br><span class="line">    bm.setDesc(map.get(item));</span><br><span class="line">    bm.setPublishDate(doc.select(<span class="string">"#article_details &gt; div.article_manage.clearfix &gt; div.article_r &gt; span.link_postdate"</span>).text());</span><br><span class="line">    Elements select = doc.select(<span class="string">"#article_details &gt; div.category.clearfix &gt; div.category_r"</span>);</span><br><span class="line">    List&lt;String&gt; cat = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(Element ele : select)&#123;</span><br><span class="line">        String text = ele.select(<span class="string">"label span"</span>).get(<span class="number">0</span>).text();</span><br><span class="line">        <span class="keyword">int</span> i = text.lastIndexOf(<span class="string">"（"</span>);</span><br><span class="line">        <span class="keyword">if</span>(i&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">            String substring = text.substring(<span class="number">0</span>, i);</span><br><span class="line">            cat.add(substring);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            cat.add(text);</span><br><span class="line">        &#125;</span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">    bm.setCategories(cat);</span><br><span class="line">    Elements tagEles = doc.select(<span class="string">"#article_details &gt; div.article_manage.clearfix &gt; div.article_l &gt; span &gt; a"</span>);</span><br><span class="line">    List&lt;String&gt; tags = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(Element ele : tagEles)&#123;</span><br><span class="line">        String text = ele.text();</span><br><span class="line">        tags.add(text);</span><br><span class="line">    &#125;</span><br><span class="line">    bm.setTags(tags);</span><br><span class="line">    doc.getElementsByTag(<span class="string">"script"</span>).remove();</span><br><span class="line">    bm.setContent(doc.select(<span class="string">"#article_content"</span>).html());</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        buildHexo(bm);</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码可能较糙。<br>这里结构化我是按照Hexo的方式来定的，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">categories:</span><br><span class="line">tags:</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br></pre></td></tr></table></figure></p>
+<p>more上面为文章摘要，下面为正文。</p>
+<h4 id="html2md"><a href="#html2md" class="headerlink" title="html2md"></a>html2md</h4><p>　　走到这一步的时候，我并没有打算自己去写，我知道这不是一个简单的程序，我在Github上找了许久，大部分是js写的，期间我也尝试使用java去调用js代码去完成转换，但是失败了，最后决定使用这个<a href="https://github.com/pnikosis/jHTML2Md，" target="_blank" rel="noopener">https://github.com/pnikosis/jHTML2Md，</a><br>看来这位哥们写这个的本意也是要搞博客迁移，因为里面有这样一个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htmlToHexoMd(String htmlPath, String mdPath, String charset)</span><br></pre></td></tr></table></figure></p>
+<p>当然了我没有用到，我用的是这个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">String <span class="title">convertHtml</span><span class="params">(String html, String charset)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>很顺利，文章成功导出，一些文章的标题创建不了文件，也就三篇，我就没有去管他<br><img src="http://upload-images.jianshu.io/upload_images/3167229-3fdc4ec10cafa351.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结果.png"></p>
+<p>让人高兴的是，你只要知道一个人的博客昵称如“u010850027”，你都可以把他的文章导出</p>
+<h4 id="hexo发布"><a href="#hexo发布" class="headerlink" title="hexo发布"></a>hexo发布</h4><p>按理说，将对应的md文件放在“hexodir/source/_posts”下，然后执行发布命令就ok了，然而，此次最大的问题出现了，html转换md文件的问题！！！<br>　　对于一些简单的html代码，可以很完美的转换为md文件，但是对于复杂的就不行了，单单csdn里的代码块，都解析不了，后来我改了下作者的源码，然而也不行，因为CSDN有两种代码块方式，一个是markdown的一个是代码高亮，这一下问题就变的稍复杂起来。由于时间的问题，我打算先放一放，平时思考思考再看看能否解决。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>开始实现这个想法是周日凌晨开始的，真的，半夜听歌喝茶写代码会“高潮”！不知不觉搞到了凌晨三点多，然后睡觉，脑海里一直在想着这个问题，第二天上午也花了时间去解决问题，我想要是再花再这个上面，周末就玩完了。所以就暂且放一放！<br>　　最后白板上，蓝色虚线内的已经走通，红色区域内的问题是要重点解决的，待问题解决，就一路畅通了~~~</p>
+<p>代码放在了这里：<a href="https://github.com/vector4wang/spring-boot-quick/tree/master/quick-crawler/src/main/java/com/quick/csdn2md" target="_blank" rel="noopener">Github</a><br>想关注后续的欢迎star和fork</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+          
+            
+          
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://i.loli.net/2017/12/29/5a4632028eaeb.jpg" alt="wangxc 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://i.loli.net/2017/12/29/5a46320234b1d.jpg" alt="wangxc 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+              -------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------
+        </div>
+    
+</div>
+
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/csdn/" rel="tag"><i class="fa fa-tag"></i> csdn</a>
+          
+            <a href="/tags/html2md/" rel="tag"><i class="fa fa-tag"></i> html2md</a>
+          
+            <a href="/tags/jsoup/" rel="tag"><i class="fa fa-tag"></i> jsoup</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/03/毕业两年了/" rel="next" title="毕业两年了">
+                <i class="fa fa-chevron-left"></i> 毕业两年了
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/23/CSDN博客迁移至Hexo之Html2Md服务-专为csdn打造/" rel="prev" title="CSDN博客迁移至Hexo之Html2Md服务(专为csdn打造)">
+                CSDN博客迁移至Hexo之Html2Md服务(专为csdn打造) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="wangxc" />
+            
+              <p class="site-author-name" itemprop="name">wangxc</p>
+              <p class="site-description motion-element" itemprop="description">革命尚未成功，同志还需努力~</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">89</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/vector4wang" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:vector4wang@qq.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.jianshu.com/u/223a1314e818" target="_blank" title="简书" rel="external nofollow"><i class="fa fa-fw fa-book"></i>简书</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qqhjqs?viewmode=contents" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/BMHJQS" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/" target="_blank" title="FB Page" rel="external nofollow"><i class="fa fa-fw fa-facebook-official"></i>FB Page</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-number">2.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解析CSDN"><span class="nav-number">2.1.</span> <span class="nav-text">解析CSDN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#html2md"><span class="nav-number">2.2.</span> <span class="nav-text">html2md</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hexo发布"><span class="nav-number">2.3.</span> <span class="nav-text">hexo发布</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxc</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Mist</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'YdGFHBfuDwObik8qwCeRAWgr-gzGzoHsz',
+        appKey: 'oFpbJwmMQf98DfFDUlzE5Fai',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

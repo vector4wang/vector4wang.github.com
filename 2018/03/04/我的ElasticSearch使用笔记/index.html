@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "15fc8e87"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在工作中，我开始接触并使用ES的笔记">
+<meta name="keywords" content="Docker,ElasticSearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的ElasticSearch使用笔记">
+<meta property="og:url" content="http://blog.wangxc.club/2018/03/04/我的ElasticSearch使用笔记/index.html">
+<meta property="og:site_name" content="冬与晨">
+<meta property="og:description" content="在工作中，我开始接触并使用ES的笔记">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-dbe1e2c1af0ad3bf..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-74eada220fc922be..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-05caefa1d8650ac3..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-dd0e18625452c92e..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-b71aa9dcad3174b1..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-bae8df0641528034..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-f2cfce11dae2109a..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3167229-42532742913e3c6b..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-06-29T13:58:50.293Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的ElasticSearch使用笔记">
+<meta name="twitter:description" content="在工作中，我开始接触并使用ES的笔记">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3167229-dbe1e2c1af0ad3bf..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.wangxc.club/2018/03/04/我的ElasticSearch使用笔记/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>我的ElasticSearch使用笔记 | 冬与晨</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-102769182-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-102769182-1');
+</script>
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?809d5610fca8eaff344d9a698536110d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    </div>
+<a href="https://github.com/vector4wang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">冬与晨</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wangxc.club/2018/03/04/我的ElasticSearch使用笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wangxc">
+      <meta itemprop="description" content="革命尚未成功，同志还需努力~">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="冬与晨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">我的ElasticSearch使用笔记
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-04 22:43:17" itemprop="dateCreated datePublished" datetime="2018-03-04T22:43:17+08:00">2018-03-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-29 21:58:50" itemprop="dateModified" datetime="2018-06-29T21:58:50+08:00">2018-06-29</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/04/我的ElasticSearch使用笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/03/04/我的ElasticSearch使用笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在工作中，我开始接触并使用ES的笔记</p>
+<a id="more"></a>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=5283988&auto=1&height=66"></iframe>
+
+<blockquote>
+<p>以下基于Elastic 5.4版本</p>
+</blockquote>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>这里使用Docker部署</p>
+<ul>
+<li>获取镜像<code>docker pull elasticsearch:5.4</code></li>
+<li>启动 <code>docker run -d -p 9200:9200 -p 9100:9100  elasticsearch:5.4</code></li>
+</ul>
+<p>注意: 通过<code>docker ps</code>可以看到es的启动情况，如果没有成功可以通过<code>docker logs elasticsearch:5.4</code> 查看日志，一般会报这个错误<code>Cannot allocate memory</code>，此时加上<code>-e ES_JAVA_OPTS=&quot;-Xms512m -Xmx512m&quot;</code>,全命令即<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 9200:9200 -p 9100:9100 -e ES_JAVA_OPTS=<span class="string">"-Xms512m -Xmx512m"</span> elasticsearch:5.4</span><br></pre></td></tr></table></figure></p>
+<h3 id="ES-的相关使用"><a href="#ES-的相关使用" class="headerlink" title="ES 的相关使用"></a>ES 的相关使用</h3><h4 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h4><p><code>GET _cat/health?v</code><br><a href="https://i.loli.net/2018/03/04/5a9c02bb4a964.png" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-dbe1e2c1af0ad3bf..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></a></p>
+<h4 id="查看节点列表"><a href="#查看节点列表" class="headerlink" title="查看节点列表"></a>查看节点列表</h4><p><code>GET _cat/nodes?v</code><br><a href="https://i.loli.net/2018/03/04/5a9c02bc15461.png" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-74eada220fc922be..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></a></p>
+<h4 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h4><p><code>PUT index?pretty</code><br><a href="https://i.loli.net/2018/03/04/5a9c02bbdfb8b.png" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-05caefa1d8650ac3..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></a></p>
+<h4 id="查看索引列表"><a href="#查看索引列表" class="headerlink" title="查看索引列表"></a>查看索引列表</h4><p><code>GET _cat/indices?v</code><br><a href="https://i.loli.net/2018/03/04/5a9c02bc1afcf.png" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-dd0e18625452c92e..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></a></p>
+<h4 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h4><p><code>DELETE index?pretty</code><br><a href="https://i.loli.net/2018/03/04/5a9c02ba88e2f.png" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-b71aa9dcad3174b1..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></a></p>
+<h4 id="创建Mapping"><a href="#创建Mapping" class="headerlink" title="创建Mapping"></a>创建Mapping</h4><p><code>POST index/type/_mapping</code><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"student"</span>: &#123;</span><br><span class="line">    <span class="attr">"properties"</span>: &#123;</span><br><span class="line">      <span class="attr">"name"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">        <span class="attr">"analyzer"</span>: <span class="string">"jieba_index"</span>,</span><br><span class="line">        <span class="attr">"search_analyzer"</span>: <span class="string">"jieba_search"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"class"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"keyword"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"age"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"integer"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"sex"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"integer"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"ranking"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"integer"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://i.loli.net/2018/03/04/5a9c02bc2b46e.png" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-bae8df0641528034..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></a><br>因为没有安装结巴分词插件，所以创建失败</p>
+<h4 id="查看Mapping"><a href="#查看Mapping" class="headerlink" title="查看Mapping"></a>查看Mapping</h4><p><code>GET index/_mapping?pretty</code><br><a href="https://i.loli.net/2018/03/04/5a9c02bbc354f.png" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-f2cfce11dae2109a..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></a></p>
+<h4 id="索引文档"><a href="#索引文档" class="headerlink" title="索引文档"></a>索引文档</h4><p><code>POST index/type/{id}</code><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"age"</span>:<span class="number">23</span>,<span class="attr">"class"</span>:<span class="string">"一年级2班"</span>,<span class="attr">"name"</span>:<span class="string">"小黑"</span>,<span class="attr">"ranking"</span>:<span class="number">13</span>,<span class="attr">"sex"</span>:<span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://i.loli.net/2018/03/04/5a9c02bc41033.png" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-42532742913e3c6b..png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></a></p>
+<h4 id="删除所有文档数据"><a href="#删除所有文档数据" class="headerlink" title="删除所有文档数据"></a>删除所有文档数据</h4><p><code>POST index/type/_delete_by_query?conflicts=proceed</code><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;<span class="attr">"match_all"</span>: &#123;&#125;&#125;</span><br><span class="line">&#125;`</span><br></pre></td></tr></table></figure></p>
+<h3 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h3><h4 id="ES支持的类型"><a href="#ES支持的类型" class="headerlink" title="ES支持的类型"></a>ES支持的类型</h4><p>这里用的是5.4 </p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>包括</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td>text, keyword</td>
+</tr>
+<tr>
+<td>Number</td>
+<td>long, integer, short, byte, double, float, half_float, scaled_float</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>date</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td>binary</td>
+</tr>
+<tr>
+<td>Rande</td>
+<td>integer_range, float_range, long_range, double_range, date_range</td>
+</tr>
+</tbody>
+</table>
+<p>官方文档：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.4/mapping-types.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/5.4/mapping-types.html</a></p>
+<p>关于String类型的text和keyword，我的理解是</p>
+<blockquote>
+<p>如果该字段需要被分词，就使用text，如果不需要分词就使用keyword</p>
+</blockquote>
+<h4 id="分词"><a href="#分词" class="headerlink" title="分词"></a>分词</h4><p>分词在ES中是比较重要的，因为分词的好坏直接影响到搜索结果准确度的高低！<br><em>分词器 接受一个字符串作为输入，将 这个字符串拆分成独立的词或 语汇单元（token） （可能会丢弃一些标点符号等字符），然后输出一个 语汇单元流（token stream） 。</em><br><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/standard-tokenizer.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/elasticsearch/guide/current/standard-tokenizer.html</a></p>
+<p>分词分为两种：<em>索引分词</em>、<em>搜索分词</em><br>在创建mapping的时候声明，如上<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">"name": &#123;</span><br><span class="line">    "type": "text",</span><br><span class="line">    "analyzer": "jieba_index",</span><br><span class="line">    "search_analyzer": "jieba_search"</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>(下面是个人观点，如有问题，欢迎指出）<br>举个例子：<br>“我爱吃肠粉” 经过分词后可能有以下几个结果</p>
+<ul>
+<li>我，爱，吃，肠，粉</li>
+<li>我爱，吃，肠粉</li>
+<li>我爱吃，肠粉</li>
+<li>。。。</li>
+</ul>
+<p>那么分词在ES中是怎样应用的？<br>当“我爱吃肠粉”索引到ES中之后，ES中对此句的描述变为“我”，“爱”，“吃”，“肠”，“粉”，此为索引分词</p>
+<p>当用户查询“我”的时候，ES会将分词结果中包含“我”的结果输出，所以“我爱吃肠粉”会被搜索出来；如果输入“我爱”，而且搜索分词的结果也为“我爱”的时候，“我爱吃肠粉”则不会被搜索出来</p>
+<p>ES默认的分词为“英文分词”，即“我爱吃肠粉”的第一种分词结果，这很显然不符合我们一般的应用场景，所以这个时候就需要引入第三方插件了，如“结巴分词”和IK分词<br>IK: <a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik</a><br>Jieba: <a href="https://github.com/sing1ee/elasticsearch-jieba-plugin" target="_blank" rel="noopener">https://github.com/sing1ee/elasticsearch-jieba-plugin</a></p>
+<p>按照自己的具体搜索场景来选择合适的分词插件</p>
+<h4 id="term-和-match-的使用"><a href="#term-和-match-的使用" class="headerlink" title="term 和 match 的使用"></a>term 和 match 的使用</h4><p>可学习这篇博客：<a href="http://www.cnblogs.com/yjf512/p/4897294.html" target="_blank" rel="noopener">http://www.cnblogs.com/yjf512/p/4897294.html</a> 写的详细全面</p>
+<h3 id="2018年3月5日-更新"><a href="#2018年3月5日-更新" class="headerlink" title="2018年3月5日 更新"></a>2018年3月5日 更新</h3><h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p><code>PUT /index/type/id</code><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"My first blog entry"</span>,</span><br><span class="line">  <span class="attr">"text"</span>:  <span class="string">"I am starting to get the hang of this..."</span>,</span><br><span class="line">  <span class="attr">"date"</span>:  <span class="string">"2014/01/02"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个id是es自己的id(可在索引的时候设置id)<br>java实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">UpdateRequest updateRequest = <span class="keyword">new</span> UpdateRequest();</span><br><span class="line">updateRequest.index(index);</span><br><span class="line">updateRequest.type(document_type);</span><br><span class="line">updateRequest.id(resumeId);</span><br><span class="line">updateRequest.doc(jsonBuilder().startObject().field(fileName, fileValue).endObject());</span><br><span class="line">UpdateResponse updateResponse = elasticSearchClient.getClient().update(updateRequest).get();</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/update-doc.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/elasticsearch/guide/current/update-doc.html</a></p>
+<h4 id="updateByquery"><a href="#updateByquery" class="headerlink" title="updateByquery"></a>updateByquery</h4><p><code>POST index/_update_by_query</code><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"script"</span>: &#123;</span><br><span class="line">    <span class="attr">"inline"</span>: <span class="string">"ctx._source.likes++"</span>,</span><br><span class="line">    <span class="attr">"lang"</span>: <span class="string">"painless"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"term"</span>: &#123;</span><br><span class="line">      <span class="attr">"user"</span>: <span class="string">"kimchy"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ctx._source 为 一条记录对象<br>上面是“将查出来的文档中likes的值加1”</p>
+<p>java实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">TransportClient client = elasticSearchClient.getClient();</span><br><span class="line">UpdateByQueryRequestBuilder updateByQueryRequestBuilder = UpdateByQueryAction.INSTANCE.newRequestBuilder(client);</span><br><span class="line">String script = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="number">1</span> == switchValue) &#123;</span><br><span class="line">    script = <span class="string">"ctx._source.is_buy = 1"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    script = <span class="string">"ctx._source.is_buy = 0"</span>;</span><br><span class="line">&#125;</span><br><span class="line">Script scriptObj = <span class="keyword">new</span> Script(script);</span><br><span class="line">BulkByScrollResponse bulkByScrollResponse = updateByQueryRequestBuilder.source(index)</span><br><span class="line">        .script(scriptObj)</span><br><span class="line">        .filter(QueryBuilders.termQuery(<span class="string">"owner_id"</span>, ownId)).abortOnVersionConflict(<span class="keyword">false</span>).get();</span><br><span class="line">List&lt;BulkItemResponse.Failure&gt; bulkFailures = bulkByScrollResponse.getBulkFailures();</span><br><span class="line"><span class="keyword">for</span> (BulkItemResponse.Failure bulkFailure : bulkFailures) &#123;</span><br><span class="line">    logger.error(bulkFailure.getMessage());</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.4/docs-update-by-query.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/5.4/docs-update-by-query.html</a></p>
+<p>以上就是我在工作中使用ES 总结的内容，入门到会使用应该是没问题。之后会继续学习并更新~</p>
+<p>CSDN：<a href="http://blog.csdn.net/qqhjqs?viewmode=list" target="_blank" rel="noopener">http://blog.csdn.net/qqhjqs?viewmode=list</a><br>博客：<a href="http://vector4wang.tk/" target="_blank" rel="noopener">http://vector4wang.tk/</a><br>简书：<a href="https://www.jianshu.com/u/223a1314e818" target="_blank" rel="noopener">https://www.jianshu.com/u/223a1314e818</a><br>Github:<a href="https://github.com/vector4wang" target="_blank" rel="noopener">https://github.com/vector4wang</a><br>Gitee:<a href="https://gitee.com/backwxc" target="_blank" rel="noopener">https://gitee.com/backwxc</a> </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+          
+            
+          
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://i.loli.net/2017/12/29/5a4632028eaeb.jpg" alt="wangxc 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://i.loli.net/2017/12/29/5a46320234b1d.jpg" alt="wangxc 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+              -------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------
+        </div>
+    
+</div>
+
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          
+            <a href="/tags/ElasticSearch/" rel="tag"><i class="fa fa-tag"></i> ElasticSearch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/01/学习Docker之Dockerfile的命令/" rel="next" title="学习Docker之Dockerfile的命令">
+                <i class="fa fa-chevron-left"></i> 学习Docker之Dockerfile的命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/11/通过shell脚本和企业微信实现实时报警功能/" rel="prev" title="通过shell脚本和企业微信实现实时报警功能">
+                通过shell脚本和企业微信实现实时报警功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="wangxc" />
+            
+              <p class="site-author-name" itemprop="name">wangxc</p>
+              <p class="site-description motion-element" itemprop="description">革命尚未成功，同志还需努力~</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">89</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/vector4wang" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:vector4wang@qq.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.jianshu.com/u/223a1314e818" target="_blank" title="简书" rel="external nofollow"><i class="fa fa-fw fa-book"></i>简书</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qqhjqs?viewmode=contents" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/BMHJQS" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/" target="_blank" title="FB Page" rel="external nofollow"><i class="fa fa-fw fa-facebook-official"></i>FB Page</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#部署"><span class="nav-number">1.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES-的相关使用"><span class="nav-number">2.</span> <span class="nav-text">ES 的相关使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看状态"><span class="nav-number">2.1.</span> <span class="nav-text">查看状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看节点列表"><span class="nav-number">2.2.</span> <span class="nav-text">查看节点列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建索引"><span class="nav-number">2.3.</span> <span class="nav-text">创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看索引列表"><span class="nav-number">2.4.</span> <span class="nav-text">查看索引列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除索引"><span class="nav-number">2.5.</span> <span class="nav-text">删除索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Mapping"><span class="nav-number">2.6.</span> <span class="nav-text">创建Mapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看Mapping"><span class="nav-number">2.7.</span> <span class="nav-text">查看Mapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引文档"><span class="nav-number">2.8.</span> <span class="nav-text">索引文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除所有文档数据"><span class="nav-number">2.9.</span> <span class="nav-text">删除所有文档数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重点"><span class="nav-number">3.</span> <span class="nav-text">重点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ES支持的类型"><span class="nav-number">3.1.</span> <span class="nav-text">ES支持的类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分词"><span class="nav-number">3.2.</span> <span class="nav-text">分词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#term-和-match-的使用"><span class="nav-number">3.3.</span> <span class="nav-text">term 和 match 的使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2018年3月5日-更新"><span class="nav-number">4.</span> <span class="nav-text">2018年3月5日 更新</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更新"><span class="nav-number">4.1.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#updateByquery"><span class="nav-number">4.2.</span> <span class="nav-text">updateByquery</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxc</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Mist</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'YdGFHBfuDwObik8qwCeRAWgr-gzGzoHsz',
+        appKey: 'oFpbJwmMQf98DfFDUlzE5Fai',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
