@@ -65,7 +65,7 @@ tag_map:
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 
-google_analytics: your-analytics-id
+google_analytics: UA-102769182-1
 
 baidu_analytics: 809d5610fca8eaff344d9a698536110d
 
