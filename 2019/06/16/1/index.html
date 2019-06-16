@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "15fc8e87"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="无Maven不项目，这是我的口号，但是一直没有系统的去看书，前段时间把《Maven实战》过了一遍做了些笔记，方便后面查阅">
+<meta name="keywords" content="Java,Maven,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Maven实战》 阅读笔记">
+<meta property="og:url" content="http://blog.wangxc.club/2019/06/16/1/index.html">
+<meta property="og:site_name" content="冬与晨">
+<meta property="og:description" content="无Maven不项目，这是我的口号，但是一直没有系统的去看书，前段时间把《Maven实战》过了一遍做了些笔记，方便后面查阅">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e8190ec0915874.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e81a50f3c33060.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e8192057d54933.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e81b4121380622.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e8190fc6229631.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e8195122884781.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e818cac4265196.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e8191a4b550589.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e81b4121375170.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05e8191c4fb75994.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef377af5983200.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef365b75068487.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef380234184140.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef368053172674.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef36a7ab540023.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef374e9ff68912.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef3701c5266346.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef370a0fe16641.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef3706a5231265.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05ef37440a772560.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1028ffe650360.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f10688fa856752.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1029e1b845641.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f102e957929216.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f102a702991471.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f102a410334513.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f102a1da325737.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f102a002311742.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1032352821568.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f102f154b44118.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1f39ad6452792.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1f392fb165585.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1f39905845755.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1f35d0a452424.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1f36cde883488.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1f473d2a25905.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05f1f4a918493822.png">
+<meta property="og:updated_time" content="2019-06-16T08:20:53.718Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Maven实战》 阅读笔记">
+<meta name="twitter:description" content="无Maven不项目，这是我的口号，但是一直没有系统的去看书，前段时间把《Maven实战》过了一遍做了些笔记，方便后面查阅">
+<meta name="twitter:image" content="https://i.loli.net/2019/06/16/5d05e8190ec0915874.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.wangxc.club/2019/06/16/1/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《Maven实战》 阅读笔记 | 冬与晨</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-102769182-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-102769182-1');
+</script>
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?809d5610fca8eaff344d9a698536110d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    </div>
+<a href="https://github.com/vector4wang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">冬与晨</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wangxc.club/2019/06/16/1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wangxc">
+      <meta itemprop="description" content="革命尚未成功，同志还需努力~">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="冬与晨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">《Maven实战》 阅读笔记
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-16 16:17:14 / 修改时间：16:20:53" itemprop="dateCreated datePublished" datetime="2019-06-16T16:17:14+08:00">2019-06-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/16/1/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/06/16/1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>无Maven不项目，这是我的口号，但是一直没有系统的去看书，前段时间把《Maven实战》过了一遍做了些笔记，方便后面查阅</p>
+<a id="more"></a>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=35040360&auto=1&height=66"></iframe>
+
+<h3 id="每个项目都有自己的坐标"><a href="#每个项目都有自己的坐标" class="headerlink" title="每个项目都有自己的坐标"></a>每个项目都有自己的坐标</h3><ul>
+<li>groupId</li>
+<li>artifactId</li>
+<li>version</li>
+<li>packaging</li>
+<li>classifier<br><img src="https://i.loli.net/2019/06/16/5d05e8190ec0915874.png" alt="1.png"></li>
+</ul>
+<p><img src="https://i.loli.net/2019/06/16/5d05e81a50f3c33060.png" alt="2.png"></p>
+<ul>
+<li>install 安装在本地</li>
+<li>deploy 打包发布到远端</li>
+</ul>
+<h3 id="依赖范围"><a href="#依赖范围" class="headerlink" title="依赖范围"></a>依赖范围</h3><p><img src="https://i.loli.net/2019/06/16/5d05e8192057d54933.png" alt="3.png"></p>
+<p>范围类型有: 编译、测试、运行 三种classpath</p>
+<ul>
+<li>compile，默认值，对编译、测试、运行三种classpath都有效；</li>
+<li>test: 测试依赖范围，只对测试classpath有效，在编译主代码或者裕兴项目的使用是则无法使用此类依赖。</li>
+<li>provided: 已提供依赖范围 只在编译和测试classpath有效，运行时无效。</li>
+<li>runtime: 运行时依赖范围，对测试和运行classpath有效，编译无效；</li>
+<li>system: 系统依赖范围,<br><img src="https://i.loli.net/2019/06/16/5d05e81b4121380622.png" alt="4.png"></li>
+</ul>
+<p>(如第三方给的jar包，且仓库中心又没有，可以使用system范围，如)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.jsoup&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jsoup&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0&lt;/version&gt;</span><br><span class="line">    &lt;scope&gt;system&lt;/scope&gt;</span><br><span class="line">    &lt;systemPath&gt;$&#123;project.basedir&#125;/src/lib/jsoup-proxy.jar&lt;/systemPath&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>import（Maven 2.0.0及以上）：导入依赖范围。不会对三种classpath产生实际的影响；(不够严谨，类似complie还是什么？)<br><img src="https://i.loli.net/2019/06/16/5d05e8190fc6229631.png" alt="5.png"></li>
+</ul>
+<h3 id="传递性依赖"><a href="#传递性依赖" class="headerlink" title="传递性依赖"></a>传递性依赖</h3><p><img src="https://i.loli.net/2019/06/16/5d05e8195122884781.png" alt="6.png"></p>
+<h3 id="依赖调解"><a href="#依赖调解" class="headerlink" title="依赖调解"></a>依赖调解</h3><p>两个依赖关系<br>A-&gt;B-&gt;C-&gt;X(1.0)<br>A-&gt;D-&gt;X(2.0)<br>两个依赖都间接来到X，<br>maven引用原则(依赖调解(Dependency Mediation))</p>
+<ul>
+<li>第一原则：路径最紧者优先 即 x(2.0)会被使用</li>
+</ul>
+<p>A-&gt;B-&gt;Y(1,0)<br>A-&gt;C-&gt;Y(2,0)</p>
+<ul>
+<li>第二原则： 在满足第一原则的前提下第一声明者优先(就近原则) 即 Y(2,0)会被使用</li>
+</ul>
+<h3 id="可选依赖"><a href="#可选依赖" class="headerlink" title="可选依赖"></a>可选依赖</h3><p><img src="https://i.loli.net/2019/06/16/5d05e818cac4265196.png" alt="7.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05e8191a4b550589.png" alt="8.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05e81b4121375170.png" alt="9.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05e8191c4fb75994.png" alt="10.png"></p>
+<h3 id="仓库的布局"><a href="#仓库的布局" class="headerlink" title="仓库的布局"></a>仓库的布局</h3><p><img src="https://i.loli.net/2019/06/16/5d05ef377af5983200.png" alt="12.png"></p>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><ul>
+<li>clean:清理项目<br><img src="https://i.loli.net/2019/06/16/5d05ef365b75068487.png" alt="13.png"></li>
+<li>default: 构建项目<br><img src="https://i.loli.net/2019/06/16/5d05ef380234184140.png" alt="14.png"></li>
+<li>site: 建立项目站点<br><img src="https://i.loli.net/2019/06/16/5d05ef368053172674.png" alt="16.png"></li>
+</ul>
+<p><img src="https://i.loli.net/2019/06/16/5d05ef36a7ab540023.png" alt="15.png"></p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>正确的设置relativePath很重要<br><img src="https://i.loli.net/2019/06/16/5d05ef374e9ff68912.png" alt="17.png"></p>
+<p>可继承的pom元素<br><img src="https://i.loli.net/2019/06/16/5d05ef3701c5266346.png" alt="18.png"></p>
+<p>依赖范围 import的用法<br><img src="https://i.loli.net/2019/06/16/5d05ef370a0fe16641.png" alt="19.png"></p>
+<p>插件跟依赖一样可以使用*Management来管理<br><img src="https://i.loli.net/2019/06/16/5d05ef3706a5231265.png" alt="20.png"><br><img src="https://i.loli.net/2019/06/16/5d05ef37440a772560.png" alt="21.png"></p>
+<h3 id="反应堆"><a href="#反应堆" class="headerlink" title="反应堆"></a>反应堆</h3><p><img src="https://i.loli.net/2019/06/16/5d05f1028ffe650360.png" alt="22.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05f10688fa856752.png" alt="23.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05f1029e1b845641.png" alt="24.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05f102e957929216.png" alt="25.png"></p>
+<p>对于裁剪功能，需要用的时候可以查阅文档</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p><img src="https://i.loli.net/2019/06/16/5d05f102a702991471.png" alt="26.png"><br><img src="https://i.loli.net/2019/06/16/5d05f102a410334513.png" alt="27.png"></p>
+<p>跳过测试<br><code>mvn package -DskipsTests</code></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05f102a1da325737.png" alt="28.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05f102a002311742.png" alt="29.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05f1032352821568.png" alt="30.png"></p>
+<p>注意：上述几种命令行动态指定测试类的方法都应该只是临时使用，如果长时间只运行项目的某几个测试，那么测试就会慢慢失去其本来的意义。</p>
+<h3 id="加入测试"><a href="#加入测试" class="headerlink" title="加入测试"></a>加入测试</h3><p><img src="https://i.loli.net/2019/06/16/5d05f102f154b44118.png" alt="31.png"></p>
+<p>也可以使用excludes排除一些测试<br><img src="https://i.loli.net/2019/06/16/5d05f1f39ad6452792.png" alt="32.png"></p>
+<h3 id="WEB应用"><a href="#WEB应用" class="headerlink" title="WEB应用"></a>WEB应用</h3><p><img src="https://i.loli.net/2019/06/16/5d05f1f392fb165585.png" alt="33.png"></p>
+<p>版本号定义约定<br><img src="https://i.loli.net/2019/06/16/5d05f1f39905845755.png" alt="34.png"></p>
+<p><img src="https://i.loli.net/2019/06/16/5d05f1f35d0a452424.png" alt="35.png"></p>
+<h3 id="Maven属性"><a href="#Maven属性" class="headerlink" title="Maven属性"></a>Maven属性</h3><h4 id="内置属性"><a href="#内置属性" class="headerlink" title="内置属性:"></a>内置属性:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$&#123;basedir&#125; 标识项目根目录即包含pom.xml 文件的目录；</span><br><span class="line">$&#123;version&#125;标识项目版本；</span><br></pre></td></tr></table></figure>
+<h4 id="POM属性"><a href="#POM属性" class="headerlink" title="POM属性:"></a>POM属性:</h4><ul>
+<li><code>${project.artifactId}</code> 对应了<project><artifactid>元素的值</artifactid></project></li>
+<li><code>${project.build.sourceDirectory}</code> 项目的主源码目录 默认src/main/java/</li>
+<li><code>${project.build.testSourceDirectory}</code> 项目的测试源码目录，默认为src/test/java</li>
+<li><code>${project.outputDirectory}</code> 项目主代码编译输出目录，默认为target/classes</li>
+<li><code>${project.testOutputDirectory}</code>： 项目测试代码编译输出目录 ，默认为target/testclasses/</li>
+<li><code>${project.groupId}</code>： 项目的groupId</li>
+<li><code>${project.artifactId}</code> 项目的artifactId</li>
+<li><code>${project.version}</code> 项目的version 与<code>${version}</code>等价</li>
+<li><code>${project.build.finalName}</code> 项目打包输出文件的名称，默认为<code>${project.artifactId}</code>-<code>${project.version}</code></li>
+</ul>
+<h4 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h4><p>可以通过<code>&lt;properties&gt;&lt;xxx&gt;val&lt;/xxx&gt;&lt;/properties&gt;</code></p>
+<h4 id="Setting属性"><a href="#Setting属性" class="headerlink" title="Setting属性"></a>Setting属性</h4><p><img src="https://i.loli.net/2019/06/16/5d05f1f36cde883488.png" alt="36.png"></p>
+<h4 id="Java属性变量"><a href="#Java属性变量" class="headerlink" title="Java属性变量"></a>Java属性变量</h4><p><img src="https://i.loli.net/2019/06/16/5d05f1f473d2a25905.png" alt="37.png"></p>
+<h4 id="环境变量属性"><a href="#环境变量属性" class="headerlink" title="环境变量属性"></a>环境变量属性</h4><p><img src="https://i.loli.net/2019/06/16/5d05f1f4a918493822.png" alt="38.png"></p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><ul>
+<li>artifactId 使用实际项目名称作为artifactId的前缀</li>
+<li>优化依赖： 使用 <code>dependency:list</code> 或 <code>dependency:tree</code> 来查看依赖关系</li>
+<li><code>mvn clean install</code> 在执行真正的项目构建之前清理项目是一个很好的实践</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+          
+            
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/06/16/1/">《Maven实战》 阅读笔记</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 wangxc 的个人博客">wangxc</a></p>
+  <p><span>发布时间:</span>2019年06月16日 - 16:06</p>
+  <p><span>最后更新:</span>2019年06月16日 - 16:06</p>
+  <p><span>原始链接:</span><a href="/2019/06/16/1/" title="《Maven实战》 阅读笔记">http://blog.wangxc.club/2019/06/16/1/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://blog.wangxc.club/2019/06/16/1/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+          
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://i.loli.net/2017/12/29/5a4632028eaeb.jpg" alt="wangxc 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://i.loli.net/2017/12/29/5a46320234b1d.jpg" alt="wangxc 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+              -------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------
+        </div>
+    
+</div>
+
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          
+            <a href="/tags/Maven/" rel="tag"><i class="fa fa-tag"></i> Maven</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"><i class="fa fa-tag"></i> 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/15/1/" rel="next" title="Docker构建服务之部署和备份jekyll网站">
+                <i class="fa fa-chevron-left"></i> Docker构建服务之部署和备份jekyll网站
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="wangxc">
+            
+              <p class="site-author-name" itemprop="name">wangxc</p>
+              <p class="site-description motion-element" itemprop="description">革命尚未成功，同志还需努力~</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">105</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/vector4wang" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:vector4wang@qq.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.jianshu.com/u/223a1314e818" target="_blank" title="简书" rel="external nofollow"><i class="fa fa-fw fa-book"></i>简书</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qqhjqs?viewmode=contents" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/BMHJQS" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/" target="_blank" title="FB Page" rel="external nofollow"><i class="fa fa-fw fa-facebook-official"></i>FB Page</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#每个项目都有自己的坐标"><span class="nav-number">1.</span> <span class="nav-text">每个项目都有自己的坐标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖范围"><span class="nav-number">2.</span> <span class="nav-text">依赖范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递性依赖"><span class="nav-number">3.</span> <span class="nav-text">传递性依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖调解"><span class="nav-number">4.</span> <span class="nav-text">依赖调解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选依赖"><span class="nav-number">5.</span> <span class="nav-text">可选依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仓库的布局"><span class="nav-number">6.</span> <span class="nav-text">仓库的布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期"><span class="nav-number">7.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">8.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反应堆"><span class="nav-number">9.</span> <span class="nav-text">反应堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">10.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入测试"><span class="nav-number">11.</span> <span class="nav-text">加入测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WEB应用"><span class="nav-number">12.</span> <span class="nav-text">WEB应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maven属性"><span class="nav-number">13.</span> <span class="nav-text">Maven属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内置属性"><span class="nav-number">13.1.</span> <span class="nav-text">内置属性:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#POM属性"><span class="nav-number">13.2.</span> <span class="nav-text">POM属性:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义属性"><span class="nav-number">13.3.</span> <span class="nav-text">自定义属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Setting属性"><span class="nav-number">13.4.</span> <span class="nav-text">Setting属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java属性变量"><span class="nav-number">13.5.</span> <span class="nav-text">Java属性变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境变量属性"><span class="nav-number">13.6.</span> <span class="nav-text">环境变量属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最佳实践"><span class="nav-number">14.</span> <span class="nav-text">最佳实践</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxc</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Mist</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'YdGFHBfuDwObik8qwCeRAWgr-gzGzoHsz',
+        appKey: 'oFpbJwmMQf98DfFDUlzE5Fai',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
