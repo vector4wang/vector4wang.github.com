@@ -473,8 +473,12 @@
 <p>说明: 以下是我自己遇到的问题，可能会对你有所帮助，也可能对你一点帮助也没有</p>
 </blockquote>
 <a id="more"></a>
+
+
 <h3 id="No-configuration-setting-found-for-key-‘akka-version’"><a href="#No-configuration-setting-found-for-key-‘akka-version’" class="headerlink" title="No configuration setting found for key ‘akka.version’"></a>No configuration setting found for key ‘akka.version’</h3><p>spark的jar包不能通过<code>java -jar xxx.jar</code>来执行，需通过<code>spark-submit</code>来执行</p>
-<h3 id="Caused-by-java-lang-ClassNotFoundException-com-fasterxml-jackson-databind-type-ReferenceType"><a href="#Caused-by-java-lang-ClassNotFoundException-com-fasterxml-jackson-databind-type-ReferenceType" class="headerlink" title="Caused by: java.lang.ClassNotFoundException:com.fasterxml.jackson.databind.type.ReferenceType"></a>Caused by: java.lang.ClassNotFoundException:com.fasterxml.jackson.databind.type.ReferenceType</h3><p>maven添加相关依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.madgag<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>bfg<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.12.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Caused-by-java-lang-ClassNotFoundException-com-fasterxml-jackson-databind-type-ReferenceType"><a href="#Caused-by-java-lang-ClassNotFoundException-com-fasterxml-jackson-databind-type-ReferenceType" class="headerlink" title="Caused by: java.lang.ClassNotFoundException:com.fasterxml.jackson.databind.type.ReferenceType"></a>Caused by: java.lang.ClassNotFoundException:com.fasterxml.jackson.databind.type.ReferenceType</h3><p>maven添加相关依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.madgag<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>bfg<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.12.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="scala-runtime-BooleanRef-create-Z-Lscala-runtime-BooleanRef"><a href="#scala-runtime-BooleanRef-create-Z-Lscala-runtime-BooleanRef" class="headerlink" title="scala.runtime.BooleanRef.create(Z)Lscala/runtime/BooleanRef"></a>scala.runtime.BooleanRef.create(Z)Lscala/runtime/BooleanRef</h3><p>scala版本号的问题，我的是因为项目有个dl4j的依赖里使用了scala的2.11版本，而我本地和测试环境上使用的是2.10版本，所以报错，将版本号统一即可</p>
 
       
@@ -557,8 +561,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/24/为solr配置Https/" rel="next" title="为solr配置Https">
-                <i class="fa fa-chevron-left"></i> 为solr配置Https
+              <a href="/2017/04/24/为你的网站添加SSL证书，让HTTPS为网站保驾护航（Godaddy）/" rel="next" title="为你的网站添加SSL证书，让HTTPS为网站保驾护航（Godaddy）">
+                <i class="fa fa-chevron-left"></i> 为你的网站添加SSL证书，让HTTPS为网站保驾护航（Godaddy）
               </a>
             
           </div>
@@ -567,8 +571,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/24/如何优雅的格式化接口/" rel="prev" title="如何优雅的格式化接口">
-                如何优雅的格式化接口 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/24/我的第一个瓶颈！？/" rel="prev" title="我的第一个瓶颈？">
+                我的第一个瓶颈？ <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -648,7 +652,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -898,7 +902,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

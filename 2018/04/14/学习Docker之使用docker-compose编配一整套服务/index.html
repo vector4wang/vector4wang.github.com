@@ -474,27 +474,44 @@
       
         <p>使用docker compose可以<strong>一键</strong>完成“一整套”服务的搭建也可以完成服务集群化部署。</p>
 <a id="more"></a>
+
+
 <p><img src="https://upload-images.jianshu.io/upload_images/3167229-a722448accf9dfec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="docker-compose.png"></p>
 <p>　这两天在用python写一个爬虫，数据暂时保存在本地的mongodb数据库，到部署的时候，发现线上的服务器没有python环境和mongodb，这个时候立马就想到了Docker！<br>　最初的思路就是run一个mongodb容器，然后再把爬虫程序构建为镜像并run起来。准备动手的时候突然脑海里闪过compose这个东东，之前看docker书的时候正好看到有关compose的这一章，我花了十分钟简单的过了一下，发现使用compose可以更加完美的实现一键构建、部署与启动的过程，接下来就以python与mongodb组合为例</p>
 <blockquote>
 <p>官网使用的是python与redis <a href="https://docs.docker.com/compose/gettingstarted/" target="_blank" rel="noopener">https://docs.docker.com/compose/gettingstarted/</a></p>
 </blockquote>
-<p>先看一下python程序<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">app = Flask(__name__)</span><br><span class="line">client = MongoClient(<span class="string">'mongodb'</span>)</span><br><span class="line">db=client[<span class="string">'datas'</span>]</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    db.col.insert(&#123;<span class="string">"hits"</span>:random.random()&#125;)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello World! I have been seen %s times.'</span> % (db.col.count())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run(host=<span class="string">"0.0.0.0"</span>, debug=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<p>先看一下python程序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">app = Flask(__name__)</span><br><span class="line">client = MongoClient(<span class="string">'mongodb'</span>)</span><br><span class="line">db=client[<span class="string">'datas'</span>]</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    db.col.insert(&#123;<span class="string">"hits"</span>:random.random()&#125;)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello World! I have been seen %s times.'</span> % (db.col.count())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run(host=<span class="string">"0.0.0.0"</span>, debug=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+
 <p>使用flask做python的web服务框架，每请求一次就会在mongodb的datas数据库插入一个文档，然后返回datas下面的总数，非常简单。</p>
-<p>然后需要把python所依赖的模块抽取出来，这里推荐使用<code>pipreqs</code><br>安装pipreqs<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipreqs</span><br></pre></td></tr></table></figure></p>
-<p>然后执行脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 我直接在项目的根目录下执行，当然也可以带上路径 如 pipreqs /project/path</span></span><br><span class="line">pipreqs .</span><br></pre></td></tr></table></figure></p>
-<p>生成的requirements如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pymongo==3.6.1</span><br><span class="line">Flask==0.12.2</span><br></pre></td></tr></table></figure></p>
-<p>接下来需要编写Dockerfile<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">2.7</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . /code</span></span><br><span class="line"><span class="bash">WORKDIR /code</span></span><br><span class="line"><span class="bash">RUN pip install -r requirements.txt</span></span><br><span class="line"><span class="bash">CMD [<span class="string">"python"</span>,<span class="string">"app.py"</span>]</span></span><br></pre></td></tr></table></figure></p>
+<p>然后需要把python所依赖的模块抽取出来，这里推荐使用<code>pipreqs</code><br>安装pipreqs</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipreqs</span><br></pre></td></tr></table></figure>
+
+<p>然后执行脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 我直接在项目的根目录下执行，当然也可以带上路径 如 pipreqs /project/path</span></span><br><span class="line">pipreqs .</span><br></pre></td></tr></table></figure>
+
+<p>生成的requirements如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pymongo==3.6.1</span><br><span class="line">Flask==0.12.2</span><br></pre></td></tr></table></figure>
+
+<p>接下来需要编写Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">2.7</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . /code</span></span><br><span class="line"><span class="bash">WORKDIR /code</span></span><br><span class="line"><span class="bash">RUN pip install -r requirements.txt</span></span><br><span class="line"><span class="bash">CMD [<span class="string">"python"</span>,<span class="string">"app.py"</span>]</span></span><br></pre></td></tr></table></figure>
+
 <p>这里用的是python 2.7版本</p>
 <p>然后定位到code目录下;</p>
 <p>将requirements.txt下依赖的模块一并安装;</p>
 <p>最后执行app.py</p>
-<p>如果是第一次接触Docker那就以往文章了解下~<br><a href="https://www.jianshu.com/p/10ed530766af" target="_blank" rel="noopener">学习Docker之Dockerfile的命令</a><br><a href="https://www.jianshu.com/p/e7cd0352e0de" target="_blank" rel="noopener">学习Docker之10张图带你深入理解Docker容器和镜像</a><br><a href="https://www.jianshu.com/p/a60045ea96be" target="_blank" rel="noopener">学习Docker之Docker、容器和镜像的简介和常用命令</a><br><a href="https://www.jianshu.com/p/efd70ad53602" target="_blank" rel="noopener">学习Docker之Docker初体验—SpringBoot集成Docker的部署、发布与应用</a></p>
-<p>紧接着开始docker-compose yml 命令与写法跟Dockerfile类似，很容易理解，如下：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">        build:</span> <span class="string">.</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="bullet">            -</span> <span class="string">"5000:5000"</span></span><br><span class="line"><span class="attr">    mongodb:</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="bullet">            -</span> <span class="string">"27017:27017"</span></span><br></pre></td></tr></table></figure></p>
+<p>如果是第一次接触Docker那就以往文章了解下~
+<a href="https://www.jianshu.com/p/10ed530766af" target="_blank" rel="noopener">学习Docker之Dockerfile的命令</a><br><a href="https://www.jianshu.com/p/e7cd0352e0de" target="_blank" rel="noopener">学习Docker之10张图带你深入理解Docker容器和镜像</a><br><a href="https://www.jianshu.com/p/a60045ea96be" target="_blank" rel="noopener">学习Docker之Docker、容器和镜像的简介和常用命令</a><br><a href="https://www.jianshu.com/p/efd70ad53602" target="_blank" rel="noopener">学习Docker之Docker初体验—SpringBoot集成Docker的部署、发布与应用</a></p>
+<p>紧接着开始docker-compose yml 命令与写法跟Dockerfile类似，很容易理解，如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">        build:</span> <span class="string">.</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="bullet">            -</span> <span class="string">"5000:5000"</span></span><br><span class="line"><span class="attr">    mongodb:</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="bullet">            -</span> <span class="string">"27017:27017"</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>这里要注意一下mongodb，就是python中使用的‘域名’</strong></p>
 <p>可以这样理解，web服务和mongodb服务都在同一个局域网，然后mongodb服务的ip对应域名就是“mongodb”</p>
 <p>docker-compose 一般需要独自安装，我这里使用的是ubuntu，直接使用<code>apt install docker-compose</code>,当然也可以按照官网安装</p>
-<p>最终目录为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── app.py</span><br><span class="line">├── docker-compose.yml</span><br><span class="line">├── Dockerfile</span><br><span class="line">└── requirements.txt</span><br></pre></td></tr></table></figure></p>
+<p>最终目录为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── app.py</span><br><span class="line">├── docker-compose.yml</span><br><span class="line">├── Dockerfile</span><br><span class="line">└── requirements.txt</span><br></pre></td></tr></table></figure>
+
 <p>执行命令<code>docker-compose up</code></p>
 <p>经过漫长的构建，docker会自动将其启动，整个过程如下<br><a href="https://i.loli.net/2018/04/14/5ad1699763fb0.gif" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/3167229-652c3cc69b676024.gif?imageMogr2/auto-orient/strip" alt="wma.gif"></a></p>
 <p>到这里使用docker-compose编配一个web服务和一个数据服务就到此结束了!</p>
@@ -665,7 +682,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -915,7 +932,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

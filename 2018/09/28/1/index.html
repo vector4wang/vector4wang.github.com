@@ -463,19 +463,27 @@
       
         <p>简化mysql部署并自动导入数据，简化elk的部署</p>
 <a id="more"></a>
+
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1883422&auto=1&height=66"></iframe>
 
 <h1 id="jd-search-4-docker"><a href="#jd-search-4-docker" class="headerlink" title="jd-search-4-docker"></a>jd-search-4-docker</h1><p>三键启动所有服务<br>MySQL+ELK+JD-Search-Api</p>
 <blockquote>
 <p>本来是想build成是三个个image，然后使用docker-compose一键启动的，但是做到后来遇到compose容器启动顺序的问题。虽说是按照顺序启动的，<br>但是并不会等你启动完毕后再去启动另外一个容器，官方相关链接:<a href="https://docs.docker.com/compose/startup-order/" target="_blank" rel="noopener">https://docs.docker.com/compose/startup-order/</a> 不想去折腾了就还是按照分块的去启动吧。</p>
 </blockquote>
-<h2 id="Mysql启动与数据导入"><a href="#Mysql启动与数据导入" class="headerlink" title="Mysql启动与数据导入"></a>Mysql启动与数据导入</h2><p>在src/docker/mysql的根目录下执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t jd-search-app-mysql .</span><br></pre></td></tr></table></figure></p>
-<p>等待构建结束，启动该容器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 jd-search-app-mysql</span><br></pre></td></tr></table></figure></p>
+<h2 id="Mysql启动与数据导入"><a href="#Mysql启动与数据导入" class="headerlink" title="Mysql启动与数据导入"></a>Mysql启动与数据导入</h2><p>在src/docker/mysql的根目录下执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t jd-search-app-mysql .</span><br></pre></td></tr></table></figure>
+
+<p>等待构建结束，启动该容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 jd-search-app-mysql</span><br></pre></td></tr></table></figure>
+
 <p>该过程包括mysql服务的启动—&gt;数据的导入—&gt;创建用户访问权限<br>日志与数据库如下</p>
 <p><a href="https://i.loli.net/2018/09/26/5bab930495914.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/09/26/5bab930495914.png" alt="WX20180926-220649@2x.png"></a><br><a href="https://i.loli.net/2018/09/26/5bab9304d4b94.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/09/26/5bab9304d4b94.png" alt="WX20180926-220739@2x.png"></a></p>
 <h2 id="elk部署"><a href="#elk部署" class="headerlink" title="elk部署"></a>elk部署</h2><p>本来想只部署es的，后来想一想算了， 还是搞一套吧，dockerhub有现成的，直接用即可，命令如下</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run --<span class="built_in">ulimit</span> nofile=65536:65536 \</span><br><span class="line">        -p 5601:5601 \</span><br><span class="line">        -p 9200:9200 \</span><br><span class="line">        -p 5044:5044 \</span><br><span class="line">        -p 5045:5045 \</span><br><span class="line">        -p 5046:5046 \</span><br><span class="line">        -d --restart=always \</span><br><span class="line">        --name jd-search-elk \</span><br><span class="line">        sebp/elk</span><br></pre></td></tr></table></figure>
-<p>注：如果内存不是很够的话，可以加上下面参数<br><code>-e ES_JAVA_OPTS=&quot;-Xms512m -Xmx512m&quot;</code><br>启动完毕，访问地址<a href="http://localhost:9200/就可以看到es的信息了" target="_blank" rel="noopener">http://localhost:9200/就可以看到es的信息了</a><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"vK92yOz"</span>,</span><br><span class="line">    <span class="attr">"cluster_name"</span>: <span class="string">"elasticsearch"</span>,</span><br><span class="line">    <span class="attr">"cluster_uuid"</span>: <span class="string">"WMVWK588TeiunfuBWxDKxg"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: &#123;</span><br><span class="line">    <span class="attr">"number"</span>: <span class="string">"6.4.0"</span>,</span><br><span class="line">    <span class="attr">"build_flavor"</span>: <span class="string">"default"</span>,</span><br><span class="line">    <span class="attr">"build_type"</span>: <span class="string">"tar"</span>,</span><br><span class="line">    <span class="attr">"build_hash"</span>: <span class="string">"595516e"</span>,</span><br><span class="line">    <span class="attr">"build_date"</span>: <span class="string">"2018-08-17T23:18:47.308994Z"</span>,</span><br><span class="line">    <span class="attr">"build_snapshot"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"lucene_version"</span>: <span class="string">"7.4.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_wire_compatibility_version"</span>: <span class="string">"5.6.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_index_compatibility_version"</span>: <span class="string">"5.0.0"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"tagline"</span>: <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+<p>注：如果内存不是很够的话，可以加上下面参数<br><code>-e ES_JAVA_OPTS=&quot;-Xms512m -Xmx512m&quot;</code><br>启动完毕，访问地址<a href="http://localhost:9200/就可以看到es的信息了" target="_blank" rel="noopener">http://localhost:9200/就可以看到es的信息了</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"vK92yOz"</span>,</span><br><span class="line">    <span class="attr">"cluster_name"</span>: <span class="string">"elasticsearch"</span>,</span><br><span class="line">    <span class="attr">"cluster_uuid"</span>: <span class="string">"WMVWK588TeiunfuBWxDKxg"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: &#123;</span><br><span class="line">    <span class="attr">"number"</span>: <span class="string">"6.4.0"</span>,</span><br><span class="line">    <span class="attr">"build_flavor"</span>: <span class="string">"default"</span>,</span><br><span class="line">    <span class="attr">"build_type"</span>: <span class="string">"tar"</span>,</span><br><span class="line">    <span class="attr">"build_hash"</span>: <span class="string">"595516e"</span>,</span><br><span class="line">    <span class="attr">"build_date"</span>: <span class="string">"2018-08-17T23:18:47.308994Z"</span>,</span><br><span class="line">    <span class="attr">"build_snapshot"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"lucene_version"</span>: <span class="string">"7.4.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_wire_compatibility_version"</span>: <span class="string">"5.6.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_index_compatibility_version"</span>: <span class="string">"5.0.0"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"tagline"</span>: <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="app"><a href="#app" class="headerlink" title="app"></a>app</h2><p>最后就是搜索服务了，直接进入代码启动该服务即可(记得要更改数据库和es的链接配置)<br>过程包括<br>自动创建索引—&gt;创建mapping—&gt;自动索引数据(前提是上面两个服务都ok)</p>
 <h2 id="玩耍"><a href="#玩耍" class="headerlink" title="玩耍"></a>玩耍</h2><p>搜索服务只简单的提供了三个接口，自己可以接着开发<br>使用kibana可以做些统计，如图<br><a href="https://i.loli.net/2018/09/27/5bace96366f3c.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/09/27/5bace96366f3c.png" alt="dashboard.png"></a></p>
 <p>代码：<a href="https://github.com/vector4wang/elasticsearch-quick/tree/jd-search-4-docker" target="_blank" rel="noopener">github</a></p>
@@ -686,7 +694,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -936,7 +944,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

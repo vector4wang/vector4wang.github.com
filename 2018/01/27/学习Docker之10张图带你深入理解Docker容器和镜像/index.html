@@ -503,6 +503,7 @@
       
         <p>刚开始接触Docker之后，就对容器和镜像的概念有所迷惑，上一篇也简单的说了一下之前的见解，其实并不准确，在之后的学习中再加上网上找的资料，发现了下面的这一片博文，一定要多看几遍，看完思考再看，就会对容器和镜像有更深刻的认识。</p>
 <a id="more"></a>
+
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=427142136&auto=1&height=66"></iframe>
 
 <p>原文链接：<a href="http://dockone.io/article/783" target="_blank" rel="noopener">http://dockone.io/article/783</a></p>
@@ -514,7 +515,9 @@
 <p><strong>题外话</strong>：就我个人而言，掌握一门技术并合理使用它的最好办法就是深入理解这项技术背后的工作原理。通常情况下，一项新技术的诞生常常会伴随着媒体的大肆宣传和炒作，这使得用户很难看清技术的本质。更确切地说，新技术总是会发明一些新的术语或者隐喻词来帮助宣传，这在初期是非常有帮助的，但是这给技术的原理蒙上了一层砂纸，不利于用户在后期掌握技术的真谛。</p>
 <p>Git就是一个很好的例子。我之前不能够很好的使用Git，于是我花了一段时间去学习Git的原理，直到这时，我才真正明白了Git的用法。我坚信只有真正理解Git内部原理的人才能够掌握这个工具。</p>
 <h3 id="Image-Definition"><a href="#Image-Definition" class="headerlink" title="Image Definition"></a>Image Definition</h3><p>镜像（Image）就是一堆只读层（read-only layer）的统一视角，也许这个定义有些难以理解，下面的这张图能够帮助读者理解镜像的定义。<br><img src="http://dockerone.com/uploads/article/20151103/522c40256149bad2b471d1a97c2b6bb5.png" alt="1.png"><br>从左边我们看到了多个只读层，它们重叠在一起。除了最下面一层，其它层都会有一个指针指向下一层。这些层是Docker内部的实现细节，并且能够在主机（译者注：运行Docker的机器）的文件系统上访问到。统一文件系统（union file system）技术能够将不同的层整合成一个文件系统，为这些层提供了一个统一的视角，这样就隐藏了多层的存在，在用户的角度看来，只存在一个文件系统。我们可以在图片的右边看到这个视角的形式。</p>
-<p>你可以在你的主机文件系统上找到有关这些层的文件。需要注意的是，在一个运行中的容器内部，这些层是不可见的。在我的主机上，我发现它们存在于/var/lib/docker/aufs目录下。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo tree -L 1 /var/lib/docker/</span><br><span class="line">/var/lib/docker/</span><br><span class="line"></span><br><span class="line">├─aufs</span><br><span class="line">├─containers</span><br><span class="line">├─graph</span><br><span class="line">├─init</span><br><span class="line">├─linkgraph.db</span><br><span class="line">├─repositories-aufs</span><br><span class="line">├─tmp</span><br><span class="line">├─trust</span><br><span class="line">└─volumes</span><br></pre></td></tr></table></figure></p>
+<p>你可以在你的主机文件系统上找到有关这些层的文件。需要注意的是，在一个运行中的容器内部，这些层是不可见的。在我的主机上，我发现它们存在于/var/lib/docker/aufs目录下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo tree -L 1 /var/lib/docker/</span><br><span class="line">/var/lib/docker/</span><br><span class="line"></span><br><span class="line">├─aufs</span><br><span class="line">├─containers</span><br><span class="line">├─graph</span><br><span class="line">├─init</span><br><span class="line">├─linkgraph.db</span><br><span class="line">├─repositories-aufs</span><br><span class="line">├─tmp</span><br><span class="line">├─trust</span><br><span class="line">└─volumes</span><br></pre></td></tr></table></figure>
+
 <h3 id="Container-Definition"><a href="#Container-Definition" class="headerlink" title="Container Definition"></a>Container Definition</h3><p>容器（container）的定义和镜像（image）几乎一模一样，也是一堆层的统一视角，唯一区别在于容器的最上面那一层是可读可写的。<br><img src="http://dockerone.com/uploads/article/20151103/b7fb9d924aa12099369c4793050fcfab.png" alt="2.png"></p>
 <p>细心的读者可能会发现，容器的定义并没有提及容器是否在运行，没错，这是故意的。正是这个发现帮助我理解了很多困惑。</p>
 <p>要点：容器 = 镜像 + 读写层。并且容器的定义并没有提及是否要运行容器。</p>
@@ -522,8 +525,13 @@
 <h3 id="Running-Container-Definition"><a href="#Running-Container-Definition" class="headerlink" title="Running Container Definition"></a>Running Container Definition</h3><p>一个运行态容器（running container）被定义为一个可读写的统一文件系统加上隔离的进程空间和包含其中的进程。下面这张图片展示了一个运行中的容器。<br><img src="http://dockerone.com/uploads/article/20151103/8022edeebeb313742bd615aa695bbad3.png" alt="3.png"></p>
 <p>正是文件系统隔离技术使得Docker成为了一个前途无量的技术。一个容器中的进程可能会对文件进行修改、删除、创建，这些改变都将作用于可读写层（read-write layer）。下面这张图展示了这个行为。<br><img src="http://dockerone.com/uploads/article/20151103/1dc88de5a114b68d05c37aab7e103597.png" alt="4.png"><br>我们可以通过运行以下命令来验证我们上面所说的：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run ubuntu touch happiness.txt</span><br></pre></td></tr></table></figure>
-<p>即便是这个ubuntu容器不再运行，我们依旧能够在主机的文件系统上找到这个新文件。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name happiness.txt</span><br><span class="line">/var/lib/docker/aufs/diff/860a7b...889/happiness.txt</span><br></pre></td></tr></table></figure></p>
-<h3 id="Image-Layer-Definition"><a href="#Image-Layer-Definition" class="headerlink" title="Image Layer Definition"></a>Image Layer Definition</h3><p>为了将零星的数据整合起来，我们提出了镜像层（image layer）这个概念。下面的这张图描述了一个镜像层，通过图片我们能够发现一个层并不仅仅包含文件系统的改变，它还能包含了其他重要信息。<br><img src="http://dockerone.com/uploads/article/20151103/e42d56394306894244af5bc6d757bee1.png" alt="5.png"><br>元数据（metadata）就是关于这个层的额外信息，它不仅能够让Docker获取运行和构建时的信息，还包括父层的层次信息。需要注意，只读层和读写层都包含元数据。<br><img src="http://dockerone.com/uploads/article/20151103/5cca590212e2a110be84cbdd3b6101ee.png" alt="6.png"><br>除此之外，每一层都包括了一个指向父层的指针。如果一个层没有这个指针，说明它处于最底层。<br><img src="http://dockerone.com/uploads/article/20151103/1ead4d955aeb5d968219794489948fc2.png" alt="8.png"><br><strong>Metadata Location:</strong><br>我发现在我自己的主机上，镜像层（image layer）的元数据被保存在名为”json”的文件中，比如说：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/lib/docker/graph/e809f156dc985.../json</span><br></pre></td></tr></table></figure></p>
+
+<p>即便是这个ubuntu容器不再运行，我们依旧能够在主机的文件系统上找到这个新文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name happiness.txt</span><br><span class="line">/var/lib/docker/aufs/diff/860a7b...889/happiness.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="Image-Layer-Definition"><a href="#Image-Layer-Definition" class="headerlink" title="Image Layer Definition"></a>Image Layer Definition</h3><p>为了将零星的数据整合起来，我们提出了镜像层（image layer）这个概念。下面的这张图描述了一个镜像层，通过图片我们能够发现一个层并不仅仅包含文件系统的改变，它还能包含了其他重要信息。<br><img src="http://dockerone.com/uploads/article/20151103/e42d56394306894244af5bc6d757bee1.png" alt="5.png"><br>元数据（metadata）就是关于这个层的额外信息，它不仅能够让Docker获取运行和构建时的信息，还包括父层的层次信息。需要注意，只读层和读写层都包含元数据。<br><img src="http://dockerone.com/uploads/article/20151103/5cca590212e2a110be84cbdd3b6101ee.png" alt="6.png"><br>除此之外，每一层都包括了一个指向父层的指针。如果一个层没有这个指针，说明它处于最底层。<br><img src="http://dockerone.com/uploads/article/20151103/1ead4d955aeb5d968219794489948fc2.png" alt="8.png"><br><strong>Metadata Location:</strong><br>我发现在我自己的主机上，镜像层（image layer）的元数据被保存在名为”json”的文件中，比如说：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/lib/docker/graph/e809f156dc985.../json</span><br></pre></td></tr></table></figure>
+
 <p>e809f156dc985…就是这层的id</p>
 <p>一个容器的元数据好像是被分成了很多文件，但或多或少能够在/var/lib/docker/containers/<id>目录下找到<id>就是一个可读层的id。这个目录下的文件大多是运行时的数据，比如说网络，日志等等。</id></id></p>
 <h3 id="全局理解（Tying-It-All-Together）"><a href="#全局理解（Tying-It-All-Together）" class="headerlink" title="全局理解（Tying It All Together）"></a>全局理解（Tying It All Together）</h3><p>现在，让我们结合上面提到的实现细节来理解Docker的命令。</p>
@@ -743,7 +751,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -993,7 +1001,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

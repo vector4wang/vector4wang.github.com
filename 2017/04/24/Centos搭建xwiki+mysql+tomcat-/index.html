@@ -478,30 +478,47 @@
       
         <p>XWiki是一个由Java编写的基于LGPL协议发布的开源wiki和应用平台。我在的公司，将学习文档、问题分享和一些技术文档都放在xwiki上管理，管理方便、发布简单，它有自己的xwiki语法，但是也支持markdown语法（不爽的是，不支持实时显示），下面就简单的介绍一下在linux下搭建xwiki的步骤。 </p>
 <a id="more"></a>
+
 <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
-<li>去官网下载xwiki的war包<a href="http://www.xwiki.org/xwiki/bin/view/Download/DownloadForm?downloadURL=http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.3-milestone-1.war&amp;projectVersion=8.3-milestone-1" target="_blank" rel="noopener">xwiki</a><br><strong>注意:</strong>需要输入邮箱，建议在windows下，下载好war包然后上传到linux里</li>
+<li>去官网下载xwiki的war包<a href="http://www.xwiki.org/xwiki/bin/view/Download/DownloadForm?downloadURL=http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.3-milestone-1.war&projectVersion=8.3-milestone-1" target="_blank" rel="noopener">xwiki</a></li>
+</ul>
+<p><strong>注意:</strong>需要输入邮箱，建议在windows下，下载好war包然后上传到linux里</p>
+<ul>
 <li>下载xwiki-enterprise-ui-mainwiki-all，之后导入xwiki项目里(可以安装好xwiki之后下载)</li>
 <li>安装mysql数据库</li>
 <li>安装tomcat</li>
 <li>安装jdk<br>　　因为本文主要是对xwiki的搭建，所以对后面三者的安装就不在一一阐述。</li>
 </ul>
-<h3 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h3><h4 id="解压war包"><a href="#解压war包" class="headerlink" title="解压war包"></a>解压war包</h4><p>　<br>将下载好的war包移动到tomcat的webapp目录下，然后启动tomcat，启动成功后，war包也就解压完毕了，最后再删掉war包，防止下次启动将后面配置好的xwiki项目覆盖掉。用到的命令如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp xxx/xwiki.war xxx/tomcat/webappsbin/startup.sh</span><br><span class="line">rm -rf xwiki.war</span><br></pre></td></tr></table></figure></p>
+<h3 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h3><h4 id="解压war包"><a href="#解压war包" class="headerlink" title="解压war包"></a>解压war包</h4><p>　
+将下载好的war包移动到tomcat的webapp目录下，然后启动tomcat，启动成功后，war包也就解压完毕了，最后再删掉war包，防止下次启动将后面配置好的xwiki项目覆盖掉。用到的命令如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp xxx/xwiki.war xxx/tomcat/webappsbin/startup.sh</span><br><span class="line">rm -rf xwiki.war</span><br></pre></td></tr></table></figure>
+
 <h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>在<strong><em>tomcat/webapps/xwiki/WEB-INF/</em></strong>目录下配置以下文件：</p>
 <ul>
-<li>hibernate.cfg.xml</li>
+<li><p>hibernate.cfg.xml</p>
+</li>
 <li><p>xwiki.cfg</p>
 <h5 id="配置hibernate-cfg-xml"><a href="#配置hibernate-cfg-xml" class="headerlink" title="配置hibernate.cfg.xml"></a>配置hibernate.cfg.xml</h5></li>
 </ul>
 <p>因为xwiki默认的是hsql数据库，所以我们要注释掉hsql的配置，放掉mysql的配置，注意mysql的用户名和密码如下：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Configuration for the default database. Comment out this section and uncomment other sections below if you want to use another database. Note that the database tables will be created automatically if they don't already exist. If you want the main wiki database to be different than "xwiki" (or the default schema for schema based engines) you will also have to set the property xwiki.db in xwiki.cfg file &lt;property name="connection.url"&gt;jdbc:hsqldb:file:$&#123;environment.permanentDirectory&#125;/database/xwiki_db;shutdown=true&lt;/property&gt;....--&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- MySQL configuration. Uncomment if you want to use MySQL and comment out other database configurations. Notes: - if you want the main wiki database to be different than "xwiki" you will also have to set the property xwiki.db in xwiki.cfg file--&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connection.url"</span>&gt;</span>jdbc:mysql://localhost/xwiki<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connection.username"</span>&gt;</span>root<span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connection.password"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connection.driver_class"</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dialect"</span>&gt;</span>org.hibernate.dialect.MySQL5InnoDBDialect<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dbcp.poolPreparedStatements"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dbcp.maxOpenPreparedStatements"</span>&gt;</span>20<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">resource</span>=<span class="string">"xwiki.hbm.xml"</span>/&gt;</span> <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">resource</span>=<span class="string">"feeds.hbm.xml"</span>/&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">resource</span>=<span class="string">"activitystream.hbm.xml"</span>/&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">resource</span>=<span class="string">"instance.hbm.xml"</span>/&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">resource</span>=<span class="string">"mailsender.hbm.xml"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h5 id="配置xwiki-cfg"><a href="#配置xwiki-cfg" class="headerlink" title="配置xwiki.cfg"></a>配置xwiki.cfg</h5><p>这个是xwiki的主要配置文件，需要配置的比较多，找到如下代码并放掉注释</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xwiki.store.main.hint=hibernate</span><br><span class="line">xwiki.store.hibernate.path=/WEB-INF/hibernate.cfg.xml</span><br><span class="line">xwiki.superadminpassword=system</span><br><span class="line">xwiki.readonly=no </span><br><span class="line">xwiki.encoding=UTF-8</span><br></pre></td></tr></table></figure>
+
 <p>之后可以通过用户名superadmin，密码system来登录。</p>
-<h5 id="创建xwiki数据库"><a href="#创建xwiki数据库" class="headerlink" title="创建xwiki数据库"></a>创建xwiki数据库</h5><p>配置好了mysql的配置，当然要创建对应的xwiki的数据库了进入mysql的命令行，输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create database xwiki;</span><br><span class="line">grant all privileges on xwiki.* to xwiki@127.0.0.1 identified by &apos;xwiki&apos;;</span><br></pre></td></tr></table></figure></p>
-<p><strong>注意：</strong>这里需要下载mysql的驱动包放在<strong>xwiki/WEB-INF/lib/</strong>下，命令如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar</span><br></pre></td></tr></table></figure></p>
-<h5 id="配置tomcat内存大小"><a href="#配置tomcat内存大小" class="headerlink" title="配置tomcat内存大小"></a>配置tomcat内存大小</h5><p>默认的tomcat内存比较小，运行xwiki有的时候回卡死在启动界面，在<strong>tomcat/bin/</strong>下修改<strong> Catalina.sh</strong>,在<code>cygwin=false</code>上面添加如下代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">"-Xms256m -Xmx512m -Xss1024K -XX:PermSize=128m -XX:MaxPermSize=256m"</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="创建xwiki数据库"><a href="#创建xwiki数据库" class="headerlink" title="创建xwiki数据库"></a>创建xwiki数据库</h5><p>配置好了mysql的配置，当然要创建对应的xwiki的数据库了进入mysql的命令行，输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create database xwiki;</span><br><span class="line">grant all privileges on xwiki.* to xwiki@127.0.0.1 identified by &apos;xwiki&apos;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>这里需要下载mysql的驱动包放在<strong>xwiki/WEB-INF/lib/</strong>下，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置tomcat内存大小"><a href="#配置tomcat内存大小" class="headerlink" title="配置tomcat内存大小"></a>配置tomcat内存大小</h5><p>默认的tomcat内存比较小，运行xwiki有的时候回卡死在启动界面，在<strong>tomcat/bin/</strong>下修改** Catalina.sh**,在<code>cygwin=false</code>上面添加如下代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">"-Xms256m -Xmx512m -Xss1024K -XX:PermSize=128m -XX:MaxPermSize=256m"</span></span><br></pre></td></tr></table></figure>
+
 <p>在windows下也是一样。如果没有意外情况的话，到此，xwiki的搭建就成功了。启动tomcat，打开xxx/xwiki,出现如下页面，就意味着你配置成功了<br><img src="http://upload-images.jianshu.io/upload_images/3167229-3508d9319ba2904e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="第一次登陆界面">直接next就ok进入主页面（Main）你会发现是一片空白页<br><img src="http://upload-images.jianshu.io/upload_images/3167229-d34d2f21a9461768?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="默认主页">点击右上角登录，使用superadmin，system登录<br><img src="http://upload-images.jianshu.io/upload_images/3167229-16dc4e8d4e282acb?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="导入配置页面">这个时候就要上传开头提到的ui配置包，点击界面上的链接，下载<code>org.xwiki.platform_xwiki-platform-administration-ui-8.2.1.xar</code>然后上传，点击安装就如下图的loding<img src="http://upload-images.jianshu.io/upload_images/3167229-ae81d326d9bd29c4?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述">稍等片刻如下<img src="http://upload-images.jianshu.io/upload_images/3167229-26a308bd0f398184?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述">这个时候刷新下页面，你会发现变成了这样<img src="http://upload-images.jianshu.io/upload_images/3167229-a7f47f3892e258ab?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述">在这里你可以配置用户组，用户，文章的语法，模板等等…</p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p><em>当团队在开发的过程中，遇到一些常见的问题、一些学习到的新技能，项目里用到的组件都可以在此上面分享，xwiki也有导入导出功能，方便资料的移植和维护</em>。<br>最最后have fun~~~</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p><em>当团队在开发的过程中，遇到一些常见的问题、一些学习到的新技能，项目里用到的组件都可以在此上面分享，xwiki也有导入导出功能，方便资料的移植和维护</em>。
+最最后have fun<del>~</del></p>
 <p><a href="http://blog.csdn.net/qqhjqs/article/details/52510587" target="_blank" rel="noopener">CSDN传送门</a></p>
 
       
@@ -588,8 +605,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/24/Spark初体验(步骤超详细)/" rel="next" title="Spark初体验(步骤超详细)">
-                <i class="fa fa-chevron-left"></i> Spark初体验(步骤超详细)
+              <a href="/2017/04/24/使用Bootstrap的后台猿人可能会用到的功能/" rel="next" title="使用Bootstrap的后台猿人可能会用到的功能">
+                <i class="fa fa-chevron-left"></i> 使用Bootstrap的后台猿人可能会用到的功能
               </a>
             
           </div>
@@ -598,8 +615,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/24/Maven系列（六）配合GitLab持续集成（CI）/" rel="prev" title="Maven系列（六）配合GitLab持续集成（CI）">
-                Maven系列（六）配合GitLab持续集成（CI） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/24/为你的网站添加SSL证书，让HTTPS为网站保驾护航（Godaddy）/" rel="prev" title="为你的网站添加SSL证书，让HTTPS为网站保驾护航（Godaddy）">
+                为你的网站添加SSL证书，让HTTPS为网站保驾护航（Godaddy） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -679,7 +696,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -929,7 +946,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

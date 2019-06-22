@@ -475,10 +475,14 @@
       
 
       
-        <p>使用Apache的开源项目Tika来抽取各种类型文件的文本内容及MetaData<br><a id="more"></a></p>
+        <p>使用Apache的开源项目Tika来抽取各种类型文件的文本内容及MetaData</p>
+<a id="more"></a>
+
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=337167&auto=1&height=66"></iframe>
 
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>有这样一个需求“用户上传一个文件，要得到这个文件的文本内容，和它的创建时间(用户创建的时间)”<br>乍一看上去，很简单啊，可以按字节读文件或按行读文件，也可以根据文件的类型引入对应的jar包去获取内容。文件的创建时间，我找了一些资料，可以通过下面代码实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Process p = Runtime.getRuntime().exec(<span class="string">"cmd /C dir "</span>           </span><br><span class="line">                    + filePath  </span><br><span class="line">                    + <span class="string">"/tc"</span> );  </span><br><span class="line">InputStream is = p.getInputStream();   </span><br><span class="line">BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(is));             </span><br><span class="line">String line;  </span><br><span class="line"><span class="keyword">while</span>((line = br.readLine()) != <span class="keyword">null</span>)&#123;  </span><br><span class="line">    <span class="keyword">if</span>(line.endsWith(<span class="string">".txt"</span>))&#123;  </span><br><span class="line">        strTime = line.substring(<span class="number">0</span>,<span class="number">17</span>);  </span><br><span class="line">        <span class="keyword">break</span>;  </span><br><span class="line">     &#125;                             </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>有这样一个需求“用户上传一个文件，要得到这个文件的文本内容，和它的创建时间(用户创建的时间)”<br>乍一看上去，很简单啊，可以按字节读文件或按行读文件，也可以根据文件的类型引入对应的jar包去获取内容。文件的创建时间，我找了一些资料，可以通过下面代码实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Process p = Runtime.getRuntime().exec(<span class="string">"cmd /C dir "</span>           </span><br><span class="line">                    + filePath  </span><br><span class="line">                    + <span class="string">"/tc"</span> );  </span><br><span class="line">InputStream is = p.getInputStream();   </span><br><span class="line">BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(is));             </span><br><span class="line">String line;  </span><br><span class="line"><span class="keyword">while</span>((line = br.readLine()) != <span class="keyword">null</span>)&#123;  </span><br><span class="line">    <span class="keyword">if</span>(line.endsWith(<span class="string">".txt"</span>))&#123;  </span><br><span class="line">        strTime = line.substring(<span class="number">0</span>,<span class="number">17</span>);  </span><br><span class="line">        <span class="keyword">break</span>;  </span><br><span class="line">     &#125;                             </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>到了这里，我正打算去实现，转念一想，apach的工具包里有提供文件复制的功能，即<code>IOUtils.copy(InputStream input, OutputStream output)</code>，那同样的Apach是否拥有提取文件内容和时间的工具类呢，还真有！这就是接下来要说的<strong>Apache  Tika</strong></p>
 <h3 id="Tika"><a href="#Tika" class="headerlink" title="Tika"></a>Tika</h3><blockquote>
 <p>The Apache Tika™ toolkit detects and extracts metadata and text from over a thousand different file types (such as PPT, XLS, and PDF). All of these file types can be parsed through a single interface, making Tika useful for search engine indexing, content analysis, translation, and much more. You can find the latest release on the download page. Please see the Getting Started page for more information on how to start using Tika.</p>
@@ -489,14 +493,18 @@
 <p>我这里使用到Tika两个功能：</p>
 <ul>
 <li>文本内容抽取</li>
-<li>元数据(MetaData)的获取<br>补充：MetaData即描述数据的数据！如一个文件的创建者，穿件时间，文档类型，字节数等等。<a href="https://en.wikipedia.org/w/index.php?title=Metadata&amp;action=history" target="_blank" rel="noopener">维基百科</a></li>
+<li>元数据(MetaData)的获取<br>补充：MetaData即描述数据的数据！如一个文件的创建者，穿件时间，文档类型，字节数等等。<a href="https://en.wikipedia.org/w/index.php?title=Metadata&action=history" target="_blank" rel="noopener">维基百科</a></li>
 </ul>
 <p>这里是一个简单教程，能让你快速了解并使用其功能<a href="http://www.yiibai.com/tika/" target="_blank" rel="noopener">http://www.yiibai.com/tika/</a></p>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>Tika是一个开源的项目，代码在这<a href="https://github.com/apache/tika，他提供了多个服务，有图形界面的也有Http服务" target="_blank" rel="noopener">https://github.com/apache/tika，他提供了多个服务，有图形界面的也有Http服务</a></p>
-<h4 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h4><p>将项目checkout到本地并执行<code>mvn clean install</code>，然后进入tika-app目录，执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar tika-app-1.4.jar --gui</span><br></pre></td></tr></table></figure></p>
+<h4 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h4><p>将项目checkout到本地并执行<code>mvn clean install</code>，然后进入tika-app目录，执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar tika-app-1.4.jar --gui</span><br></pre></td></tr></table></figure>
+
 <p>如下动图</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/3167229-0f4b8c9ec0ecfac0.gif?imageMogr2/auto-orient/strip" alt="gui"></p>
-<h4 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h4><p>关于官方指定使用<code>curl</code>，我就在ubuntu上启动了server，启动的方式为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar tika-server/target/tika-server.jar</span><br></pre></td></tr></table></figure></p>
+<h4 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h4><p>关于官方指定使用<code>curl</code>，我就在ubuntu上启动了server，启动的方式为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar tika-server/target/tika-server.jar</span><br></pre></td></tr></table></figure>
+
 <p>测试了一个文件，如下图</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/3167229-5606fa60fadcf365.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="server.png"></p>
 <p>还有其他的方法，如：</p>
@@ -693,7 +701,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -943,7 +951,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

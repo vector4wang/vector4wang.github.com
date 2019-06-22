@@ -478,7 +478,9 @@
       
         <p>抓取领英职业档案url的相关解决方案</p>
 <a id="more"></a>
-<h3 id="说在前头"><a href="#说在前头" class="headerlink" title="说在前头"></a>说在前头</h3><p>　　有段时间没更新了，期间发生了很多事，这里就不一一赘述，有一个要说一下， 之前我放在github上的springbootquick代码结构我重新整理了一下，因为我觉得branch的方式去完善每个小功能不太直观，索性找个时间全都整理在了一起，方便大家观看<br>  <img src="http://upload-images.jianshu.io/upload_images/3167229-fbaa4651e13f1e68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录结构"><br>项目地址为<a href="https://github.com/vector4wang/spring-boot-quick" target="_blank" rel="noopener">https://github.com/vector4wang/spring-boot-quick</a>　里面有些是我工作中用到的，有些是我在平时玩玩积累的，如果对你有帮助，点个星，fork一下，我会感激不尽，如果有问题，请及时沟通我，我会在第一时间改正，我的原则是“交流、互助、提升”~<br> 　　今天就我之前写的一个小虫子说一下代码里的随机应变，以下观点均数个人看法，如有雷同纯属巧合，如果你对我的看法有意见欢迎拍砖，如果觉得我的理解有点意思，那有劳，点个赞分享一下，我定感激不尽，好的，言归正传！</p>
+
+<h3 id="说在前头"><a href="#说在前头" class="headerlink" title="说在前头"></a>说在前头</h3><p>　　有段时间没更新了，期间发生了很多事，这里就不一一赘述，有一个要说一下， 之前我放在github上的springbootquick代码结构我重新整理了一下，因为我觉得branch的方式去完善每个小功能不太直观，索性找个时间全都整理在了一起，方便大家观看<br>  <img src="http://upload-images.jianshu.io/upload_images/3167229-fbaa4651e13f1e68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录结构"><br>项目地址为<a href="https://github.com/vector4wang/spring-boot-quick" target="_blank" rel="noopener">https://github.com/vector4wang/spring-boot-quick</a>　里面有些是我工作中用到的，有些是我在平时玩玩积累的，如果对你有帮助，点个星，fork一下，我会感激不尽，如果有问题，请及时沟通我，我会在第一时间改正，我的原则是“交流、互助、提升”~
+ 　　今天就我之前写的一个小虫子说一下代码里的随机应变，以下观点均数个人看法，如有雷同纯属巧合，如果你对我的看法有意见欢迎拍砖，如果觉得我的理解有点意思，那有劳，点个赞分享一下，我定感激不尽，好的，言归正传！</p>
 <h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><blockquote>
 <p>世充日踧月迫，力尽计穷，悬首面缚，翘足可待。建德远来助虐，粮运阻绝，此是天丧之时。请固武牢，屯军氾水，随机应变，则易为克殄 —旧唐书·郭孝恪传(指随着情况的变化灵活机动地应付)</p>
 </blockquote>
@@ -488,10 +490,12 @@
 <li>请求限制 当产生大量请求是，它会对请求直接拒绝~</li>
 <li>账号限制 同一个ip或者ip所在的网段注册多个领英账号的时候，账号会出现各种繁琐的验证，没验证的直接禁掉！！！</li>
 </ul>
-<p>目前我知道的就这几条。<br>好，因为是代码，请求的速度非常快，一秒通过百度指向领英跳转达到几十个，几分钟后代码就报错了，如下<br><img src="http://upload-images.jianshu.io/upload_images/3167229-27c7b494a25438ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="999.png"><br>　　这啥啊，999感冒灵冲剂啊!!!查了下code码，原来是“访问被拒绝”，我得出的结果是领英那边检查出了大量的个人页面的请求，速度很快非人类所能达到，于是就禁止数据返回。<br>　　我心想这下完蛋了，这条路难道也走不通！！！急的我抓耳挠腮~，然后我起身转了一圈，喝了点水，突然灵光一闪，“我想要的就是个人中心的链接啊，我可以先拿到这些链接存起来作为种子url，然后再将以前的爬虫改造一下，通过这些url去抓啊！”<br>于是，我将这些错误catch住，通过简单的正则来判断是否为拥有个人中心的链接地址，如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Pattern r = Pattern.compile(<span class="string">"in/[\\u4e00-\\u9fa5-0-9-a-z-A-z%]*"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Matcher m = r.matcher(e.getMessage());</span><br><span class="line">String seed = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">if</span> (m.find()) &#123;</span><br><span class="line">    seed = m.group();</span><br><span class="line">    seed = seed.substring(<span class="number">3</span>, seed.length());</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(seed);</span><br></pre></td></tr></table></figure></p>
-<p>结果为<br><img src="http://upload-images.jianshu.io/upload_images/3167229-5791ebe1225b51ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="seed.png"><br>没错，白色就是种子url，最后在直接访问<a href="http://www.linkedin.com/in/jingshi-wang-056b6245/" target="_blank" rel="noopener">http://www.linkedin.com/in/jingshi-wang-056b6245/</a> 就可以获取这个人一些职业信息啦~~~<br><img src="http://upload-images.jianshu.io/upload_images/3167229-ddce44080aca774a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="职业档案.png"></p>
+<p>目前我知道的就这几条。<br>好，因为是代码，请求的速度非常快，一秒通过百度指向领英跳转达到几十个，几分钟后代码就报错了，如下<br><img src="http://upload-images.jianshu.io/upload_images/3167229-27c7b494a25438ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="999.png"><br>　　这啥啊，999感冒灵冲剂啊!!!查了下code码，原来是“访问被拒绝”，我得出的结果是领英那边检查出了大量的个人页面的请求，速度很快非人类所能达到，于是就禁止数据返回。<br>　　我心想这下完蛋了，这条路难道也走不通！！！急的我抓耳挠腮~，然后我起身转了一圈，喝了点水，突然灵光一闪，“我想要的就是个人中心的链接啊，我可以先拿到这些链接存起来作为种子url，然后再将以前的爬虫改造一下，通过这些url去抓啊！”<br>于是，我将这些错误catch住，通过简单的正则来判断是否为拥有个人中心的链接地址，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Pattern r = Pattern.compile(<span class="string">"in/[\\u4e00-\\u9fa5-0-9-a-z-A-z%]*"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Matcher m = r.matcher(e.getMessage());</span><br><span class="line">String seed = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">if</span> (m.find()) &#123;</span><br><span class="line">    seed = m.group();</span><br><span class="line">    seed = seed.substring(<span class="number">3</span>, seed.length());</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(seed);</span><br></pre></td></tr></table></figure>
+
+<p>结果为<br><img src="http://upload-images.jianshu.io/upload_images/3167229-5791ebe1225b51ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="seed.png"><br>没错，白色就是种子url，最后在直接访问<a href="http://www.linkedin.com/in/jingshi-wang-056b6245/" target="_blank" rel="noopener">http://www.linkedin.com/in/jingshi-wang-056b6245/</a> 就可以获取这个人一些职业信息啦<del>~</del><br><img src="http://upload-images.jianshu.io/upload_images/3167229-ddce44080aca774a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="职业档案.png"></p>
 <p>最终的是酱紫<br><img src="http://upload-images.jianshu.io/upload_images/3167229-ed83801ae81395b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结构.png"><br>为什么领英爬虫还要回写种子DB，因为要将抓过的url打个标记抓过了，整体就这么简单。</p>
-<p>现在种子抓了100多万了，领英这块抓了8万多，现在暂停了，因为帐号这块的问题还没有解决~~~，啊哈哈哈哈</p>
+<p>现在种子抓了100多万了，领英这块抓了8万多，现在暂停了，因为帐号这块的问题还没有解决<del>~</del>，啊哈哈哈哈</p>
 <h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>代码我放在了github上，<a href="https://github.com/vector4wang/spring-boot-quick/blob/master/quick-crawler/src/main/java/com/quick/baidu/BaiduCrawlerUrl.java" target="_blank" rel="noopener">点我</a><br>其实这里并不是说代码的这一块的，而是如何对代码反馈出来的结果做出灵活的应对以致快速总结出解决方案，这不就是对代码的“随机应变”吗~~</p>
 
       
@@ -667,7 +671,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -917,7 +921,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

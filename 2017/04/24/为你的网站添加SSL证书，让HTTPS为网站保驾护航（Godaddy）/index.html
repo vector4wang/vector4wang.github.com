@@ -477,15 +477,18 @@
 <blockquote>
 <p>以下步骤介绍如何使用 keytool 安装证书，因此你必须在自己的服务器上安装 Java 2 SDK 1.2 或更高版本。</p>
 </blockquote>
-<h3 id="在-Tomcat-中生成密钥库和-CSR"><a href="#在-Tomcat-中生成密钥库和-CSR" class="headerlink" title="在 Tomcat 中生成密钥库和 CSR"></a>在 Tomcat 中生成密钥库和 CSR</h3><p>在 Tomcat 中生成密钥库和 CSR 的步骤<br>1、在 keytool 中输入下列命令以生成密钥库：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -keysize 2048 -genkey -<span class="built_in">alias</span> tomcat -keyalg RSA -keystore tomcat.keystore</span><br></pre></td></tr></table></figure></p>
+<h3 id="在-Tomcat-中生成密钥库和-CSR"><a href="#在-Tomcat-中生成密钥库和-CSR" class="headerlink" title="在 Tomcat 中生成密钥库和 CSR"></a>在 Tomcat 中生成密钥库和 CSR</h3><p>在 Tomcat 中生成密钥库和 CSR 的步骤<br>1、在 keytool 中输入下列命令以生成密钥库： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -keysize 2048 -genkey -<span class="built_in">alias</span> tomcat -keyalg RSA -keystore tomcat.keystore</span><br></pre></td></tr></table></figure>
+
 <p>2、在“Password”（密码）中输入密码。默认密码为 changeit。<br>3、在“Distinguished Information”（识别信息）中输入相关信息：</p>
 <pre><code>- First and Last Name（姓名）— 你要保护的完全限定域名或 URL。如果你申请的是通配符证书，请在要添加通配符的通用名称左边添加星号 (*)，例如 *.coolexample.com。
 - Organizational Unit（组织单位）—（可选）你可以在该字段中输入 DBA 名称（如果有）。
 - Organization（组织）— 你的组织的法律名称。列出的组织必须是证书申请中的域名的合法注册人。如果你是以个人身份注册，请在“Organization”（组织）中输入证书申请人的名字，并在“Organizational - - Unit”（组织单位）中输入 DBA（经营部门）名称。
 - City/Locality（城市/地区）— 你的组织注册或所在的城市，请勿使用缩写。
 - State/Province（州/省）— 你的组织所在的州或省，请勿使用缩写。
-- Country Code（国家/地区）— 你的组织依法注册所在国家/地区的国家/地区代码，以国际标准化组织的两字母格式表示
-</code></pre><p>4、在 keytool 中输入下列命令以生成 CSR：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -certreq -keyalg RSA -<span class="built_in">alias</span> tomcat -file csr.csr -keystore tomcat.keystore</span><br></pre></td></tr></table></figure></p>
+- Country Code（国家/地区）— 你的组织依法注册所在国家/地区的国家/地区代码，以国际标准化组织的两字母格式表示</code></pre><p>4、在 keytool 中输入下列命令以生成 CSR：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -certreq -keyalg RSA -<span class="built_in">alias</span> tomcat -file csr.csr -keystore tomcat.keystore</span><br></pre></td></tr></table></figure>
+
 <p>5、在“Password”（密码）中输入第 2 步中提供的密码。<br>6、打开 CSR 文件，复制所有文本，包括<br>—-BEGIN NEW CERTIFICATE REQUEST—-</p>
 <p>和</p>
 <p>—-END CERTIFICATE REQUEST—-<br>7、将所有文本粘贴到在线申请表中并完成你的申请。<br>一般就是验证下域名的所有权，通过审核后，页面就会给你一个连接去下载加密证书。</p>
@@ -495,16 +498,25 @@
 SHA-2 根证书：gdroot-g2.crt
 SHA-1 中级证书：gd.intermediate.crt
 SHA-2 中级证书：gdig2.crt
-（仅限 Java 6/7）SHA-2 根证书：gdroot-g2_cross.crt
-</code></pre><p>你还可以从资源库下载证书。<br>在 Tomcat 中安装 SSL的步骤</p>
-<p>通过运行以下命令来安装根证书：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -import -<span class="built_in">alias</span> root -keystore tomcat.keystore -trustcacerts -file [根证书的名称]</span><br></pre></td></tr></table></figure></p>
-<p>通过运行以下命令来安装中级证书：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -import -<span class="built_in">alias</span> intermed -keystore tomcat.keystore -trustcacerts -file [中级证书的名称]</span><br></pre></td></tr></table></figure></p>
-<p>通过运行以下命令将颁发的证书安装到密钥库中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -import -<span class="built_in">alias</span> tomcat -keystore tomcat.keystore -trustcacerts -file [颁发的证书的名称]</span><br></pre></td></tr></table></figure></p>
+（仅限 Java 6/7）SHA-2 根证书：gdroot-g2_cross.crt</code></pre><p>你还可以从资源库下载证书。<br>在 Tomcat 中安装 SSL的步骤</p>
+<p>通过运行以下命令来安装根证书：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -import -<span class="built_in">alias</span> root -keystore tomcat.keystore -trustcacerts -file [根证书的名称]</span><br></pre></td></tr></table></figure>
+
+<p>通过运行以下命令来安装中级证书：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -import -<span class="built_in">alias</span> intermed -keystore tomcat.keystore -trustcacerts -file [中级证书的名称]</span><br></pre></td></tr></table></figure>
+
+<p>通过运行以下命令将颁发的证书安装到密钥库中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -import -<span class="built_in">alias</span> tomcat -keystore tomcat.keystore -trustcacerts -file [颁发的证书的名称]</span><br></pre></td></tr></table></figure>
+
 <p>可以参考下面这张图</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/3167229-9a410e229564ac81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="对应证书"></p>
 <p>将 server.xml 文件中的密钥库位置更新为其在 Tomcat 目录中的正确位置。</p>
-<p>注意：默认情况下，HTTPS 连接符是放在注释部分中的。要启用 HTTPS，请删除注释标记。<br>    Tomcat 4.x — 在 Tomcat 4.x 的 server.xml 中更新以下元素：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clientAuth="false"</span><br><span class="line">protocol="TLS" keystoreFile="/etc/tomcat5/tomcat.keystore"</span><br><span class="line">keystorePass="changeit" /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>Tomcat 5.x、6.x 和 7.x — 在 Tomcat 5.x、6.x 和 7.x 的 server.xml 中更新以下元素：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">--</span> <span class="attr">Define</span> <span class="attr">a</span> <span class="attr">SSL</span> <span class="attr">Coyote</span> <span class="attr">HTTP</span>/<span class="attr">1.1</span> <span class="attr">Connector</span> <span class="attr">on</span> <span class="attr">port</span> <span class="attr">8443</span> <span class="attr">--</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Connector</span> </span></span><br><span class="line"><span class="tag">		   <span class="attr">port</span>=<span class="string">"8443"</span> <span class="attr">maxThreads</span>=<span class="string">"200"</span></span></span><br><span class="line"><span class="tag">		   <span class="attr">scheme</span>=<span class="string">"https"</span> <span class="attr">secure</span>=<span class="string">"true"</span> <span class="attr">SSLEnabled</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">		   <span class="attr">keystoreFile</span>=<span class="string">"[path to your keystore file]"</span> <span class="attr">keystorePass</span>=<span class="string">"changeit"</span></span></span><br><span class="line"><span class="tag">		   <span class="attr">clientAuth</span>=<span class="string">"false"</span> <span class="attr">sslProtocol</span>=<span class="string">"TLS"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>注意：默认情况下，HTTPS 连接符是放在注释部分中的。要启用 HTTPS，请删除注释标记。<br>    Tomcat 4.x — 在 Tomcat 4.x 的 server.xml 中更新以下元素：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clientAuth="false"</span><br><span class="line">protocol="TLS" keystoreFile="/etc/tomcat5/tomcat.keystore"</span><br><span class="line">keystorePass="changeit" /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Tomcat 5.x、6.x 和 7.x — 在 Tomcat 5.x、6.x 和 7.x 的 server.xml 中更新以下元素：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">--</span> <span class="attr">Define</span> <span class="attr">a</span> <span class="attr">SSL</span> <span class="attr">Coyote</span> <span class="attr">HTTP</span>/<span class="attr">1.1</span> <span class="attr">Connector</span> <span class="attr">on</span> <span class="attr">port</span> <span class="attr">8443</span> <span class="attr">--</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Connector</span> </span></span><br><span class="line"><span class="tag">		   <span class="attr">port</span>=<span class="string">"8443"</span> <span class="attr">maxThreads</span>=<span class="string">"200"</span></span></span><br><span class="line"><span class="tag">		   <span class="attr">scheme</span>=<span class="string">"https"</span> <span class="attr">secure</span>=<span class="string">"true"</span> <span class="attr">SSLEnabled</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">		   <span class="attr">keystoreFile</span>=<span class="string">"[path to your keystore file]"</span> <span class="attr">keystorePass</span>=<span class="string">"changeit"</span></span></span><br><span class="line"><span class="tag">		   <span class="attr">clientAuth</span>=<span class="string">"false"</span> <span class="attr">sslProtocol</span>=<span class="string">"TLS"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>保存你对 server.xml 所做的更改，然后重新启动 Tomcat 以开始使用你的 SSL。 你的 SSL 证书已安装完毕。</p>
 <p>希望能幫助到你</p>
 
@@ -586,8 +598,8 @@ SHA-2 中级证书：gdig2.crt
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/24/我的第一个瓶颈！？/" rel="next" title="我的第一个瓶颈？">
-                <i class="fa fa-chevron-left"></i> 我的第一个瓶颈？
+              <a href="/2017/04/24/Centos搭建xwiki+mysql+tomcat-/" rel="next" title="Centos搭建xwiki+mysql+tomcat">
+                <i class="fa fa-chevron-left"></i> Centos搭建xwiki+mysql+tomcat
               </a>
             
           </div>
@@ -596,8 +608,8 @@ SHA-2 中级证书：gdig2.crt
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/24/springboot多模块(modules)开发/" rel="prev" title="SpringBoot多模块的开发、发布、引用与部署(Nexus3)">
-                SpringBoot多模块的开发、发布、引用与部署(Nexus3) <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/24/接触spark可能会遇到的问题/" rel="prev" title="接触spark可能会遇到的问题">
+                接触spark可能会遇到的问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -677,7 +689,7 @@ SHA-2 中级证书：gdig2.crt
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -927,7 +939,11 @@ SHA-2 中级证书：gdig2.crt
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

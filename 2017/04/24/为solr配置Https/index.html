@@ -469,13 +469,21 @@
       
 
       
-        <p>为solr配置Https<br><a id="more"></a></p>
+        <p>为solr配置Https</p>
+<a id="more"></a>
 <h2 id="为solr配置Https"><a href="#为solr配置Https" class="headerlink" title="为solr配置Https"></a>为solr配置Https</h2><h3 id="使用keytool生成-keystore密钥"><a href="#使用keytool生成-keystore密钥" class="headerlink" title="使用keytool生成*.keystore密钥"></a>使用keytool生成*.keystore密钥</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkeypair -<span class="built_in">alias</span> solr-ssl -keyalg RSA -keysize 2048 -keypass secret -storepass secret -validity 9999 -keystore solr-ssl.keystore.jks -ext SAN=DNS:localhost,IP:192.168.1.3,IP:127.0.0.1 -dname <span class="string">"CN=localhost, OU=Organizational Unit, O=Organization, L=Location, ST=State, C=Country"</span></span><br></pre></td></tr></table></figure>
+
 <p>注意里面的IP，还有后面的一些参数”localhost、Organizational Unit、Organization。。。”<br>命令执行后，就会产生一个文件<code>solr-ssl.keystore.jks</code></p>
-<h3 id="转换密钥"><a href="#转换密钥" class="headerlink" title="转换密钥"></a>转换密钥</h3><p>再次通过keytool工具将 JKS 密钥库转换成使用 keytool PKCS12 格式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -importkeystore -srckeystore solr-ssl.keystore.jks -destkeystore solr-ssl.keystore.p12 -srcstoretype jks -deststoretype pkcs12</span><br></pre></td></tr></table></figure></p>
-<p>注意：以上两个步骤，会让你输入密码，一个是密钥库密码(自己设置)还有一个源密码(默认为<em>secret</em>)，要记住！<br>接下来使用 openssl 命令转换 PKCS12 格式 keystore，包括证书和密钥：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -<span class="keyword">in</span> solr-ssl.keystore.p12 -out solr-ssl.pem</span><br></pre></td></tr></table></figure></p>
+<h3 id="转换密钥"><a href="#转换密钥" class="headerlink" title="转换密钥"></a>转换密钥</h3><p>再次通过keytool工具将 JKS 密钥库转换成使用 keytool PKCS12 格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -importkeystore -srckeystore solr-ssl.keystore.jks -destkeystore solr-ssl.keystore.p12 -srcstoretype jks -deststoretype pkcs12</span><br></pre></td></tr></table></figure>
+
+<p>注意：以上两个步骤，会让你输入密码，一个是密钥库密码(自己设置)还有一个源密码(默认为<em>secret</em>)，要记住！<br>接下来使用 openssl 命令转换 PKCS12 格式 keystore，包括证书和密钥：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -<span class="keyword">in</span> solr-ssl.keystore.p12 -out solr-ssl.pem</span><br></pre></td></tr></table></figure>
+
 <p>密码为刚刚自己设置的。</p>
-<h3 id="配置solr-in-sh"><a href="#配置solr-in-sh" class="headerlink" title="配置solr.in.sh"></a>配置solr.in.sh</h3><p>在solr文件下”solr-5.5.3/bin/solr.in.sh”<br>找到对应代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#SOLR_SSL_KEY_STORE=etc/solr-ssl.keystore.jks</span></span><br><span class="line"><span class="comment">#SOLR_SSL_KEY_STORE_PASSWORD=secret</span></span><br><span class="line"><span class="comment">#SOLR_SSL_TRUST_STORE=etc/solr-ssl.keystore.jks</span></span><br><span class="line"><span class="comment">#SOLR_SSL_TRUST_STORE_PASSWORD=secret</span></span><br><span class="line"><span class="comment">#SOLR_SSL_NEED_CLIENT_AUTH=false</span></span><br><span class="line"><span class="comment">#SOLR_SSL_WANT_CLIENT_AUTH=false</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="配置solr-in-sh"><a href="#配置solr-in-sh" class="headerlink" title="配置solr.in.sh"></a>配置solr.in.sh</h3><p>在solr文件下”solr-5.5.3/bin/solr.in.sh”<br>找到对应代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#SOLR_SSL_KEY_STORE=etc/solr-ssl.keystore.jks</span></span><br><span class="line"><span class="comment">#SOLR_SSL_KEY_STORE_PASSWORD=secret</span></span><br><span class="line"><span class="comment">#SOLR_SSL_TRUST_STORE=etc/solr-ssl.keystore.jks</span></span><br><span class="line"><span class="comment">#SOLR_SSL_TRUST_STORE_PASSWORD=secret</span></span><br><span class="line"><span class="comment">#SOLR_SSL_NEED_CLIENT_AUTH=false</span></span><br><span class="line"><span class="comment">#SOLR_SSL_WANT_CLIENT_AUTH=false</span></span><br></pre></td></tr></table></figure>
+
 <p>将注释放掉，然后STORE和PASSWORD改成对应的即可</p>
 <p>以上的做法时可以配置https,，但是这样并不是安全的，因为https并没有被互联网认可！<br>如果你之前为tomcat成功的配置了Https，可以将tomcat.keystore直接应用过来，这样最简单</p>
 <p><strong>以上是我根据自己的环境使用Godaddy来配置的，并不一定适应其他环境</strong></p>
@@ -560,8 +568,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/24/springboot多模块(modules)开发/" rel="next" title="SpringBoot多模块的开发、发布、引用与部署(Nexus3)">
-                <i class="fa fa-chevron-left"></i> SpringBoot多模块的开发、发布、引用与部署(Nexus3)
+              <a href="/2016/11/06/九型性格/" rel="next" title="九型性格">
+                <i class="fa fa-chevron-left"></i> 九型性格
               </a>
             
           </div>
@@ -570,8 +578,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/24/接触spark可能会遇到的问题/" rel="prev" title="接触spark可能会遇到的问题">
-                接触spark可能会遇到的问题 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/24/Javaer，你必须要了解的ExecutorService/" rel="prev" title="Javaer，你必须要了解的ExecutorService">
+                Javaer，你必须要了解的ExecutorService <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -651,7 +659,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -901,7 +909,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">105</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">107</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
