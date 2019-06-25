@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "15fc8e87"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="对于数据同步功能你是否厌倦了写代码？那么使用logstash吧，带你进入新的坑~">
+<meta name="keywords" content="Logstash,数据同步">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logstash 简易教程">
+<meta property="og:url" content="http://blog.wangxc.club/2019/06/25/1/index.html">
+<meta property="og:site_name" content="冬与晨">
+<meta property="og:description" content="对于数据同步功能你是否厌倦了写代码？那么使用logstash吧，带你进入新的坑~">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-25T15:07:02.998Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Logstash 简易教程">
+<meta name="twitter:description" content="对于数据同步功能你是否厌倦了写代码？那么使用logstash吧，带你进入新的坑~">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.wangxc.club/2019/06/25/1/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Logstash 简易教程 | 冬与晨</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-102769182-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-102769182-1');
+</script>
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?809d5610fca8eaff344d9a698536110d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    </div>
+<a href="https://github.com/vector4wang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">冬与晨</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wangxc.club/2019/06/25/1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wangxc">
+      <meta itemprop="description" content="革命尚未成功，同志还需努力~">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="冬与晨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Logstash 简易教程
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-25 23:03:28 / 修改时间：23:07:02" itemprop="dateCreated datePublished" datetime="2019-06-25T23:03:28+08:00">2019-06-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/25/1/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/06/25/1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>对于数据同步功能你是否厌倦了写代码？那么使用logstash吧，带你进入新的坑~</p>
+<a id="more"></a>
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=86205&auto=1&height=66"></iframe>
+
+<p>建议在使用logstash之前先想清楚自己的需求是什么，从哪种数据源同步到哪里，需要经过怎么样的处理。因为logstash版本迭代较快，每个版本的插件都有点区别，比如filter中的http插件在6.6版本以后才有；output到现在(7.1)都没有jdbc的插件，然而你如果想使用output的jdbc插件就需要自己去安装热心人自己写的插件(logstash-output-jdbc),不幸的是，该作者指出没有很多的时间去维护此插件，不能保证6.3以后用户的正常使用。<br>也就是说，如果你想用output的jdbc，你就必须使用6.3以下(最好5.x)的版本，如果你想用官方filter的http插件，你就得用6.5以上的版本。话说logstash为什么不把jdbc加入到output中去呢。。。</p>
+<p>另外：最好在linux下进行调试或使用，因为用windows会出现恶心的乱码问题。。。。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
+<p>如果目标数据源的type为jdbc，则建议安装logstash-5.4.1或6.x一下的版本，因为logstash-output-jdbc只在6.x以下有效，本教程对应的版本为logstash-5.4.1</p>
+</blockquote>
+<p>建议直接下载zip包进行使用，解压完之后的目录如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── bin  # 二进制脚本，包括用于启动Logstash的logstash和用于安装插件的logstash-plugin</span><br><span class="line">├── config # Configuration files, including logstash.yml and jvm.options</span><br><span class="line">├── CONTRIBUTORS</span><br><span class="line">├── data</span><br><span class="line">├── Gemfile</span><br><span class="line">├── Gemfile.jruby-2.3.lock</span><br><span class="line">├── lib</span><br><span class="line">├── LICENSE</span><br><span class="line">├── logs # 日志文件</span><br><span class="line">├── logstash-core</span><br><span class="line">├── logstash-core-plugin-api</span><br><span class="line">├── modules</span><br><span class="line">├── NOTICE.TXT</span><br><span class="line">├── tools</span><br><span class="line">└── vendor</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.elastic.co/guide/en/logstash/7.1/dir-layout.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/logstash/7.1/dir-layout.html</a></p>
+<p>可以在对应目录下，执行如下命令来验证是否安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/logstash -e &apos;input &#123; stdin &#123; &#125; &#125; output &#123; stdout &#123;&#125; &#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<p>等待启动成功，直接输入“hello world”<br>会有如下显示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">      &quot;@version&quot; =&gt; &quot;1&quot;,</span><br><span class="line">    &quot;@timestamp&quot; =&gt; 2019-06-20T06:46:48.310Z,</span><br><span class="line">       &quot;message&quot; =&gt; &quot;hello world&quot;,</span><br><span class="line">          &quot;host&quot; =&gt; &quot;localhost.localdomain&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>则安装成功</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><h3 id="区段"><a href="#区段" class="headerlink" title="区段"></a>区段</h3><p>Logstash 设计了自己的 DSL —— 有点像 Puppet 的 DSL，或许因为都是用 Ruby 语言写的吧 —— 包括有区域，注释，数据类型(布尔值，字符串，数值，数组，哈希)，条件判断，字段引用等。</p>
+<p>Logstash 用 {} 来定义区域，区域内可以包括插件区域定义，你可以在一个区域内定义多个插件。插件区域内则可以定义键值对设置。示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">input &#123;&#125;</span><br><span class="line">filter &#123;&#125;</span><br><span class="line">output &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">bool</td>
+<td align="center">debug =&gt; true</td>
+</tr>
+<tr>
+<td align="center">bytes</td>
+<td align="center">my_bytes =&gt; “113” # 113 bytes</td>
+</tr>
+<tr>
+<td align="center">string</td>
+<td align="center">host =&gt; “hostname”</td>
+</tr>
+<tr>
+<td align="center">number</td>
+<td align="center">port =&gt; 214</td>
+</tr>
+<tr>
+<td align="center">array</td>
+<td align="center">match =&gt;[ “/var/log/messages”, “/var/log/*.log” ]</td>
+</tr>
+<tr>
+<td align="center">hash</td>
+<td align="center">options =&gt; {key1 =&gt; “value1”,key2 =&gt; “value2” }</td>
+</tr>
+</tbody></table>
+<h3 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h3><table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">等于</td>
+<td align="center">==</td>
+</tr>
+<tr>
+<td align="center">不等于</td>
+<td align="center">!=</td>
+</tr>
+<tr>
+<td align="center">小于</td>
+<td align="center">&lt;</td>
+</tr>
+<tr>
+<td align="center">大于</td>
+<td align="center">&gt;</td>
+</tr>
+<tr>
+<td align="center">小于等于</td>
+<td align="center">&lt;=</td>
+</tr>
+<tr>
+<td align="center">大于等于</td>
+<td align="center">&gt;=</td>
+</tr>
+<tr>
+<td align="center">匹配正则</td>
+<td align="center">=~</td>
+</tr>
+<tr>
+<td align="center">不匹配正则</td>
+<td align="center">!~</td>
+</tr>
+<tr>
+<td align="center">包含</td>
+<td align="center">in</td>
+</tr>
+<tr>
+<td align="center">不包含</td>
+<td align="center">not in</td>
+</tr>
+<tr>
+<td align="center">与</td>
+<td align="center">and</td>
+</tr>
+<tr>
+<td align="center">或</td>
+<td align="center">or</td>
+</tr>
+<tr>
+<td align="center">非与</td>
+<td align="center">nand</td>
+</tr>
+<tr>
+<td align="center">非或</td>
+<td align="center">xor</td>
+</tr>
+<tr>
+<td align="center">复合表达式</td>
+<td align="center">()</td>
+</tr>
+<tr>
+<td align="center">取反符合</td>
+<td align="center">!()</td>
+</tr>
+</tbody></table>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="读取日志文件"><a href="#读取日志文件" class="headerlink" title="读取日志文件"></a>读取日志文件</h3><p><a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html#plugins-inputs-file-type" target="_blank" rel="noopener">https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html#plugins-inputs-file-type</a><br>各参数介绍与赋值</p>
+<p>全量同步一个文件的所有内容，并且进行监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">    file &#123;</span><br><span class="line">        path =&gt; [&quot;/usr/local/logstash/logstash-tutorial-dataset&quot;]</span><br><span class="line">        type =&gt; &quot;file_monitor&quot;</span><br><span class="line">        tags =&gt; [&quot;有用的&quot;,&quot;标识用的&quot;]</span><br><span class="line">        start_position =&gt; &quot;beginning&quot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">   stdout &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>监听后不能打开编辑再保存必须使用echo &gt;&gt; 对文件进行追加内容，可以看到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">       &quot;message&quot; =&gt; &quot;2019年6月20日16:57:52&quot;,</span><br><span class="line">    &quot;@timestamp&quot; =&gt; 2019-06-20T08:57:55.624Z,</span><br><span class="line">          &quot;tags&quot; =&gt; [</span><br><span class="line">        [0] &quot;有用的&quot;,</span><br><span class="line">        [1] &quot;标识用的&quot;</span><br><span class="line">    ],</span><br><span class="line">          &quot;host&quot; =&gt; &quot;localhost.localdomain&quot;,</span><br><span class="line">          &quot;path&quot; =&gt; &quot;/usr/local/logstash/logstash-tutorial-dataset&quot;,</span><br><span class="line">      &quot;@version&quot; =&gt; &quot;1&quot;,</span><br><span class="line">          &quot;type&quot; =&gt; &quot;file_monitor&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="读取mysql"><a href="#读取mysql" class="headerlink" title="读取mysql"></a>读取mysql</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">    jdbc &#123;</span><br><span class="line">        jdbc_driver_library =&gt; &quot;/usr/local/logstash/mysql/mysql-connector-java-5.1.47.jar&quot;</span><br><span class="line">        jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">        jdbc_connection_string =&gt; &quot;jdbc:mysql://xxx:xxx/data&quot;</span><br><span class="line">        jdbc_user =&gt; &quot;xxx&quot;</span><br><span class="line">        jdbc_password =&gt; &quot;xxx&quot;</span><br><span class="line">        parameters =&gt; &#123; &quot;id&quot; =&gt; 666 &#125;</span><br><span class="line">        statement =&gt; &quot;SELECT * FROM xxx_t_job_function_net_bak20140828 WHERE id &gt; :id&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">    stdout &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="写mysql"><a href="#写mysql" class="headerlink" title="写mysql"></a>写mysql</h3><p>官方没有提供写mysql的插件，所以需要自己下载安装<br><a href="https://github.com/theangryangel/logstash-output-jdbc" target="_blank" rel="noopener">https://github.com/theangryangel/logstash-output-jdbc</a></p>
+<p><code>./logstash-plugin install logstash-output-jdbc</code></p>
+<p>可惜的是，目前插件只支持6.3以前，当前logstash最新版本为7.1.1，<br>测试用的是logstash-5.4.1 较稳定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">    jdbc &#123;</span><br><span class="line">        jdbc_driver_library =&gt; &quot;/usr/local/logstash/mysql/mysql-connector-java-5.1.47.jar&quot;</span><br><span class="line">        jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">        jdbc_connection_string =&gt; &quot;jdbc:mysql://120.55.168.18:8840/data&quot;</span><br><span class="line">        jdbc_user =&gt; &quot;crawler&quot;</span><br><span class="line">        jdbc_password =&gt; &quot;crawler9988@ed&quot;</span><br><span class="line">        parameters =&gt; &#123; &quot;id&quot; =&gt; 666 &#125;</span><br><span class="line">        statement =&gt; &quot;SELECT * FROM xxx_t_job_function_net_bak20140828 WHERE id &gt; :id&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">    jdbc &#123;</span><br><span class="line">        driver_jar_path =&gt; &quot;D:\repo\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar&quot;</span><br><span class="line">        driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">        connection_string =&gt; &quot;jdbc:mysql://sss:8840/testcase&quot;</span><br><span class="line">        username =&gt; &quot;sss&quot;</span><br><span class="line">        password =&gt; &quot;csssd&quot;</span><br><span class="line">        statement =&gt; [&quot;INSERT INTO job_function_20190621 ( code_val, name_val, level_val, source_name, version ) VALUES (?,?,?,?,?)&quot;,&quot;code&quot;,&quot;name&quot;,&quot;level&quot;,&quot;source_name&quot;,&quot;current_version&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">    stdout &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.elastic.co/guide/en/logstash/5.4/input-plugins.html" target="_blank" rel="noopener">input</a></p>
+<p><a href="https://www.elastic.co/guide/en/logstash/5.4/output-plugins.html" target="_blank" rel="noopener">output</a></p>
+<p><a href="https://www.elastic.co/guide/en/logstash/5.4/filter-plugins.html" target="_blank" rel="noopener">filter</a></p>
+<p>以上三个链接为官方文档，基本上涵盖了可能会用到的数据源头与目标，如果没有的话，可以去github上搜索一下一般都会有人自己开发插件如<code>logstash-output-jdbc</code></p>
+<h3 id="完整的示例"><a href="#完整的示例" class="headerlink" title="完整的示例"></a>完整的示例</h3><ul>
+<li>源数据。data数据库的<code>xxx_t_job_function_net_bak20140828</code>表，获取<code>id&gt;666</code>的数据</li>
+<li>过滤(清洗)数据。利用dict数据库<code>dict_location</code>表替换数据源中code，去除对应的<code>location_name_cn</code>,如遇到多条数据则合并为一条用“;”分开</li>
+<li>目标数据。将整理好的数据保存在testcase数据库的·job_function_20190621`表中</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">    jdbc &#123;</span><br><span class="line">        jdbc_driver_library =&gt; &quot;D:\repo\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar&quot;    </span><br><span class="line">        jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">        jdbc_connection_string =&gt; &quot;jdbc:mysql://xxx:xxx/data&quot;</span><br><span class="line">        jdbc_user =&gt; &quot;xxx&quot;</span><br><span class="line">        jdbc_password =&gt; &quot;xxxx&quot;</span><br><span class="line">        statement =&gt; &quot;SELECT * FROM xxx_t_job_function_net_bak20140828 WHERE id &gt; :id&quot;</span><br><span class="line">        parameters =&gt; &#123; &quot;id&quot; =&gt; 666 &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">filter &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">        match =&gt; &#123;&quot;@timestamp&quot; =&gt; &quot;%&#123;YEAR:year&#125;-%&#123;MONTHNUM:month&#125;-%&#123;MONTHDAY:day&#125;&quot; &#125;</span><br><span class="line">        add_field =&gt; &#123; &quot;current_version&quot; =&gt; &quot;%&#123;year&#125;%&#123;month&#125;%&#123;day&#125;&quot;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    jdbc_streaming &#123;</span><br><span class="line">        # 加了会错误，可能引用了上面的input jdbc_driver_library =&gt; &quot;D:\repo\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar&quot;</span><br><span class="line">        jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">        jdbc_connection_string =&gt; &quot;jdbc:mysql://xxx:3306/xxx&quot;</span><br><span class="line">        jdbc_user =&gt; &quot;xxx&quot;</span><br><span class="line">        jdbc_password =&gt; &quot;xxx&quot;</span><br><span class="line">        statement =&gt; &quot;SELECT location_name_cn FROM dict_location WHERE location_code = :codeParam&quot;</span><br><span class="line">        parameters =&gt; &#123; &quot;codeParam&quot; =&gt; &quot;code&quot;&#125;</span><br><span class="line">        target =&gt; &quot;code&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    if [code] and [code][0] and (&quot;location_name_cn&quot; in [code][0]) &#123;</span><br><span class="line">        ruby &#123;</span><br><span class="line">            code =&gt; &quot;</span><br><span class="line">            r = &apos;&apos;</span><br><span class="line">            event.get(&apos;code&apos;).each do |variable|</span><br><span class="line">               # puts variable[&apos;location_name_cn&apos;]</span><br><span class="line">               r = r + variable[&apos;location_name_cn&apos;] + &apos;;&apos;</span><br><span class="line">            end </span><br><span class="line">            event.set(&apos;code&apos;,r)</span><br><span class="line">            &quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        mutate &#123;</span><br><span class="line">            replace =&gt; &#123; &quot;code&quot; =&gt; &quot;&quot;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">    stdout &#123;</span><br><span class="line">        codec =&gt; rubydebug&#123;&#125;        </span><br><span class="line">    &#125;</span><br><span class="line">    jdbc &#123;</span><br><span class="line">        driver_jar_path =&gt; &quot;D:\repo\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar&quot;</span><br><span class="line">        driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">        connection_string =&gt; &quot;jdbc:mysql://xxx:8840/xxx&quot;</span><br><span class="line">        username =&gt; &quot;xxx&quot;</span><br><span class="line">        password =&gt; &quot;xxx&quot;</span><br><span class="line">        statement =&gt; [&quot;INSERT INTO job_function_20190621 ( code_val, name_val, level_val, source_name, version ) VALUES (?,?,?,?,?)&quot;,&quot;code&quot;,&quot;name&quot;,&quot;level&quot;,&quot;source_name&quot;,&quot;current_version&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><p>1、整理并调试好读取数据与插入数据的脚本或参数；</p>
+<p>2、一般字符串的操作官方给的插件中就可以解决如Date、json、mutate等</p>
+<p>3、遇到比较复杂的操作可以借助ruby，在编译器中调试好，直接复制过来，可以实时调试；</p>
+<p>4、grok为提取日志的核心操作组件</p>
+<p>5、注意变量的引用，内置参数为@timestamp</p>
+<p>字符串中引用 “the longitude is %{[geoip][location][0]}”<br>作为判断的时候可以<code>[filed]</code>使用</p>
+<p><a href="https://www.elastic.co/guide/en/logstash/current/event-dependent-configuration.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/logstash/current/event-dependent-configuration.html</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+          
+            
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/06/25/1/">Logstash 简易教程</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 wangxc 的个人博客">wangxc</a></p>
+  <p><span>发布时间:</span>2019年06月25日 - 23:06</p>
+  <p><span>最后更新:</span>2019年06月25日 - 23:06</p>
+  <p><span>原始链接:</span><a href="/2019/06/25/1/" title="Logstash 简易教程">http://blog.wangxc.club/2019/06/25/1/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://blog.wangxc.club/2019/06/25/1/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+          
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://i.loli.net/2017/12/29/5a4632028eaeb.jpg" alt="wangxc 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://i.loli.net/2017/12/29/5a46320234b1d.jpg" alt="wangxc 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+              -------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------
+        </div>
+    
+</div>
+
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Logstash/" rel="tag"><i class="fa fa-tag"></i> Logstash</a>
+          
+            <a href="/tags/数据同步/" rel="tag"><i class="fa fa-tag"></i> 数据同步</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/22/1/" rel="next" title="《深入理解JVM虚拟机》垃圾回收部分 读书笔记">
+                <i class="fa fa-chevron-left"></i> 《深入理解JVM虚拟机》垃圾回收部分 读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="wangxc">
+            
+              <p class="site-author-name" itemprop="name">wangxc</p>
+              <p class="site-description motion-element" itemprop="description">革命尚未成功，同志还需努力~</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">74</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">109</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/vector4wang" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:vector4wang@qq.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.jianshu.com/u/223a1314e818" target="_blank" title="简书" rel="external nofollow"><i class="fa fa-fw fa-book"></i>简书</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qqhjqs?viewmode=contents" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/BMHJQS" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/" target="_blank" title="FB Page" rel="external nofollow"><i class="fa fa-fw fa-facebook-official"></i>FB Page</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区段"><span class="nav-number">2.1.</span> <span class="nav-text">区段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">2.2.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件判断"><span class="nav-number">2.3.</span> <span class="nav-text">条件判断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">3.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取日志文件"><span class="nav-number">3.1.</span> <span class="nav-text">读取日志文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取mysql"><span class="nav-number">3.2.</span> <span class="nav-text">读取mysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写mysql"><span class="nav-number">3.3.</span> <span class="nav-text">写mysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整的示例"><span class="nav-number">3.4.</span> <span class="nav-text">完整的示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最佳实践"><span class="nav-number">4.</span> <span class="nav-text">最佳实践</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxc</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Mist</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'YdGFHBfuDwObik8qwCeRAWgr-gzGzoHsz',
+        appKey: 'oFpbJwmMQf98DfFDUlzE5Fai',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
