@@ -132,7 +132,7 @@
 <meta property="og:site_name" content="冬与晨">
 <meta property="og:description" content="出现奇怪的bug，那就从头来过，不要漏掉任何地方！">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-03T15:10:54.046Z">
+<meta property="og:updated_time" content="2019-09-03T15:14:36.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mybatis中单双引号引发的惨案">
 <meta name="twitter:description" content="出现奇怪的bug，那就从头来过，不要漏掉任何地方！">
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="创建时间：2019-09-03 23:04:24 / 修改时间：23:10:54" itemprop="dateCreated datePublished" datetime="2019-09-03T23:04:24+08:00">2019-09-03</time>
+              <time title="创建时间：2019-09-03 23:04:24 / 修改时间：23:14:36" itemprop="dateCreated datePublished" datetime="2019-09-03T23:04:24+08:00">2019-09-03</time>
             
 
             
@@ -460,8 +460,11 @@
         <p>出现奇怪的bug，那就从头来过，不要漏掉任何地方！</p>
 <a id="more"></a>
 
-<p>###<code>#{}</code>与<code>${}</code>的区别</p>
-<blockquote>
+
+
+
+
+<h3 id="与-的区别"><a href="#与-的区别" class="headerlink" title="#{}与${}的区别"></a><code>#{}</code>与<code>${}</code>的区别</h3><blockquote>
 <p><code>#{}</code>是预编译处理，<code>${}</code>是字符串替换Mybatis在处理#{}时，会将sql中的#{}替换为?号， 调用PreparedStatement的set方法来赋值；<br>Mybatis在处理${}时，就是把${}替换成变量的值。<br>使用#{}可以有效的防止SQL注入，提高系统安全性。</p>
 </blockquote>
 <p>再通俗的说，使用<code>${}</code>mybatis会把参数加上双引号，而<code>${}</code> 你给啥，sql语句中就是啥，如下示例:</p>
@@ -637,6 +640,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/09/18/1/" rel="prev" title="Java中对象占用内存大小计算">
+                Java中对象占用内存大小计算 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -714,7 +721,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">78</span>
+                    <span class="site-state-item-count">80</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -986,7 +993,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">116</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">118</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1056,7 +1067,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后"><span class="nav-number">2.</span> <span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#与-的区别"><span class="nav-number">1.</span> <span class="nav-text">#{}与${}的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">2.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>

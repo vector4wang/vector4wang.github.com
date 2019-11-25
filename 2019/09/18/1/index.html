@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "15fc8e87"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="能快速估算出每一个对象占用空间的大小可以在编程的时候正确选择数据结构">
+<meta name="keywords" content="Java,面试,性能,内存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中对象占用内存大小计算">
+<meta property="og:url" content="http://blog.wangxc.club/2019/09/18/1/index.html">
+<meta property="og:site_name" content="冬与晨">
+<meta property="og:description" content="能快速估算出每一个对象占用空间的大小可以在编程的时候正确选择数据结构">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/09/16/IEK8AykLWrBuq6z.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/16/1cBK6y3MpgVwaZQ.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/16/vMca4FJKEfsCLdz.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/16/t1Qh9yi7lAud3jL.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/16/WbviGAg2ExT5nol.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/16/v5lKNQrYTG1XuWw.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/Qd5ZPHrRCfyW6gU.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/qQoZa59YGDXKPbs.png">
+<meta property="og:updated_time" content="2019-09-17T16:21:17.398Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java中对象占用内存大小计算">
+<meta name="twitter:description" content="能快速估算出每一个对象占用空间的大小可以在编程的时候正确选择数据结构">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/16/IEK8AykLWrBuq6z.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://blog.wangxc.club/2019/09/18/1/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Java中对象占用内存大小计算 | 冬与晨</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-102769182-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-102769182-1');
+</script>
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?809d5610fca8eaff344d9a698536110d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    </div>
+<a href="https://github.com/vector4wang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">冬与晨</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wangxc.club/2019/09/18/1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wangxc">
+      <meta itemprop="description" content="革命尚未成功，同志还需努力~">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="冬与晨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Java中对象占用内存大小计算
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-18 00:14:31 / 修改时间：00:21:17" itemprop="dateCreated datePublished" datetime="2019-09-18T00:14:31+08:00">2019-09-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/18/1/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/09/18/1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>能快速估算出每一个对象占用空间的大小可以在编程的时候正确选择数据结构</p>
+<a id="more"></a>
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=259003&auto=1&height=66"></iframe>
+
+
+
+<p>可以直接进入正题<strong>对象的组成</strong>这一节</p>
+<h3 id="byte与bit"><a href="#byte与bit" class="headerlink" title="byte与bit"></a>byte与bit</h3><p>bit： 位，比特。 信息的最小单位，二进制数中的一个位数(二进制位)，其值为“0”或“1”；</p>
+<p>byte: 字节。计算机文件大小的基本计算单位;</p>
+<ul>
+<li>原码：正数本身，负数，正数对应的二进制最高位为1(负)；</li>
+<li>反码：正数本身，负数，符号位不变，其余各位取反；</li>
+<li>补码：正数本身，负数：反码+1</li>
+<li>0的反码、补码都为零</li>
+</ul>
+<p><strong>注意: 计算机处理是以补码形式，我们最终看到的是原码形式</strong></p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">System.out.println((<span class="keyword">byte</span>)<span class="number">233</span>); <span class="comment">// -23</span></span><br><span class="line">System.out.println((<span class="keyword">byte</span>)-<span class="number">233</span>); <span class="comment">// 23</span></span><br><span class="line">System.out.println(<span class="string">"~b2: "</span> + ~<span class="number">10</span>); <span class="comment">// -11</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p><img src="https://i.loli.net/2019/09/16/IEK8AykLWrBuq6z.png" alt="Java基本类型"></p>
+<p>注意：</p>
+<ul>
+<li><strong>对于数组32，默认为int型，32B为byte类型，32S为short类型，32L为long型</strong></li>
+<li>基本数据类型自动转换(低转高，高转低会丢失精度)<ul>
+<li>byte -&gt; short</li>
+<li>char -&gt; int -&gt; long</li>
+<li>float -&gt; double</li>
+<li>int -&gt; float</li>
+<li>long -&gt; double</li>
+</ul>
+</li>
+</ul>
+<p>后面会出一篇关于低转高，高转低的计算博文，敬请期待！</p>
+<h3 id="Java中对象占用内存大小"><a href="#Java中对象占用内存大小" class="headerlink" title="Java中对象占用内存大小"></a>Java中对象占用内存大小</h3><h3 id="对象的组成"><a href="#对象的组成" class="headerlink" title="对象的组成"></a>对象的组成</h3><p>可用如下一张图来概括</p>
+<p><img src="https://i.loli.net/2019/09/16/1cBK6y3MpgVwaZQ.png" alt="对象组成图"></p>
+<p>具体大小</p>
+<table>
+<thead>
+<tr>
+<th>名称(单位byte)</th>
+<th>32位</th>
+<th>64位</th>
+<th>开启指针压缩后(指针对64位有效且默认开启)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对象头(Header)</td>
+<td>8</td>
+<td>16</td>
+<td>12</td>
+</tr>
+<tr>
+<td>数组对象头</td>
+<td>12</td>
+<td>24</td>
+<td>16</td>
+</tr>
+<tr>
+<td>引用(reference)</td>
+<td>4</td>
+<td>8</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<ul>
+<li>开启指针压缩指令<code>-XX:+UseCompressedOops</code>,关闭指令<code>-XX:-UseCompressedOops</code>,只在64位才有效且默认开启；</li>
+<li>数组对象头比普通对象多了个数组长度；</li>
+</ul>
+<h5 id="对象头-Header"><a href="#对象头-Header" class="headerlink" title="对象头(Header)"></a>对象头(Header)</h5><blockquote>
+<p>“用于存储对象自身的运行时数据，如哈希码（HashCode）、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时间戳等，这部分数据的长度在32位和64位的虚拟机（未开启压缩指针）中分别为32bit和64bit，官方称它为”Mark Word”</p>
+</blockquote>
+<h5 id="实例数据-Instance-Data"><a href="#实例数据-Instance-Data" class="headerlink" title="实例数据(Instance Data)"></a>实例数据(Instance Data)</h5><blockquote>
+<p>“对象真正存储的有效信息，也是在程序代码中所定义的各种类型的字段内容。无论是从父类继承下来的，还是在子类中定义的，都需要记录起来”</p>
+</blockquote>
+<h5 id="对其补充-Padding"><a href="#对其补充-Padding" class="headerlink" title="对其补充(Padding)"></a>对其补充(Padding)</h5><blockquote>
+<p>“第三部分对齐填充并不是必然存在的，也没有特别的含义，它仅仅起着占位符的作用。由于HotSpot VM的自动内存管理系统要求对象起始地址必须是8字节的整数倍，换句话说，就是对象的大小必须是8字节的整数倍。而对象头部分正好是8字节的倍数（1倍或者2倍），因此，当对象实例数据部分没有对齐时，就需要通过对齐填充来补全。”</p>
+</blockquote>
+<p>HotSpot的对齐方式为8字节对齐：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(Header + Instance Data + Paddding) % 8 = 0 并且 0 &lt;= padding &lt; 8</span><br></pre></td></tr></table></figure>
+
+<h3 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h3><h4 id="Shallow-与-Retained区别"><a href="#Shallow-与-Retained区别" class="headerlink" title="Shallow 与 Retained区别"></a><code>Shallow</code> 与 <code>Retained</code>区别</h4><p>再看具体的例子之前，需要了解下两个名词，下面使用Java性能监控工具<code>Jprofile</code>会用到</p>
+<ul>
+<li><code>Shallow Size</code> 对象自身占用的内存大小，不包括它引用的对象<ul>
+<li>针对非数组类型的对象，它的大小就是对象与它所有的成员变量大小的总和。当然这里面还会包括一些java语言特性的数据存储单元。</li>
+<li>针对数组类型的对象，它的大小是数组元素对象的大小总和。</li>
+</ul>
+</li>
+<li><code>Retained Size</code> Retained Size=当前对象大小+当前对象可直接或间接引用到的对象的大小总和。(间接引用的含义：A-&gt;B-&gt;C, C就是间接引用)</li>
+</ul>
+<p>注意：以下实验均在此环境下进行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java version <span class="string">"1.8.0_171"</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_171-b11)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.171-b11, mixed mode)</span><br></pre></td></tr></table></figure>
+
+<h4 id="实例一："><a href="#实例一：" class="headerlink" title="实例一："></a>实例一：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		A a = <span class="keyword">new</span> A();</span><br><span class="line">		Thread.sleep(<span class="number">1000</span> * <span class="number">1000</span>);</span><br><span class="line">		System.out.println(a);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分析: 64位下默认开启指针压缩，对象头位12byte, <code>i</code>4byte,此时12 + 4 = 16 可以整除8，所以padding=0,最终</p>
+<p><code>12(header) + 4(instance data)+0(padding)=16byte</code> jprofile结果如下：</p>
+<p><img src="https://i.loli.net/2019/09/16/vMca4FJKEfsCLdz.png" alt></p>
+<p>如果我们关掉指针压缩，</p>
+<p><img src="https://i.loli.net/2019/09/16/t1Qh9yi7lAud3jL.png" alt></p>
+<p><code>16(header) + 4(instance data)+4(padding)=24byte</code> <em>16+4=20,不能整除8，需要再加上4</em>，<code>Jprofile</code>如下</p>
+<p><img src="https://i.loli.net/2019/09/16/WbviGAg2ExT5nol.png" alt></p>
+<h4 id="实例二"><a href="#实例二" class="headerlink" title="实例二"></a>实例二</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">int</span> i = <span class="number">5</span>;</span><br><span class="line">   <span class="keyword">private</span> Integer ii = <span class="number">128</span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      B b = <span class="keyword">new</span> B();</span><br><span class="line">      Thread.sleep(<span class="number">1000</span> * <span class="number">1000</span>);</span><br><span class="line">      System.out.println(b);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比较特殊的地方时这里复制了，因为包装类型有自己的缓存，可以看这里*</p>
+<p>开启指针压缩，计算内存大小</p>
+<p><code>Shallow Size</code>： 12(B Header) + 4 (i instance) + 4 (ii reference) + 4(padding) = 24bytes</p>
+<p><code>Retained Size</code>: 12(B Header) + 4 (i instance) + 4 (ii reference) + (12(ii header) + 4(instance)+ 0(padding)) + 4(padding) = 40bytes</p>
+<p><code>Jprofile</code>如下</p>
+<p><img src="https://i.loli.net/2019/09/16/v5lKNQrYTG1XuWw.png" alt></p>
+<h4 id="实例三"><a href="#实例三" class="headerlink" title="实例三"></a>实例三</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">C</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">char</span>[] cc;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">C</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      i = <span class="number">5</span>;</span><br><span class="line">      cc = <span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>&#125;;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      C c = <span class="keyword">new</span> C();</span><br><span class="line">      Thread.sleep(<span class="number">1000</span> * <span class="number">1000</span>);</span><br><span class="line">      System.out.println(c);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>多了数组，注意数组自己本身的padding</p>
+<p><code>Shallow Size</code>： 12(C Header) + 4 (i instance) + 4 (cc reference) + 4(padding) = 24bytes</p>
+<p><code>Retained Size</code>: 12(C Header) + 4 (i instance) + 4 (cc reference) + (16(cc header) + 2(instance) * 3+ 2(padding)) + 4(padding) = 48bytes</p>
+<p><code>Jprofile</code>如下</p>
+<p><img src="https://i.loli.net/2019/09/17/Qd5ZPHrRCfyW6gU.png" alt></p>
+<h4 id="实例四"><a href="#实例四" class="headerlink" title="实例四"></a>实例四</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">D</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Map&lt;String, String&gt; map;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">D</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">		map.put(<span class="string">"A"</span>, <span class="string">"A"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		D d = <span class="keyword">new</span> D();</span><br><span class="line">		Thread.sleep(<span class="number">1000</span> * <span class="number">1000</span>);</span><br><span class="line">		System.out.println(d);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Shallow Size</code>: 12(D header) + 4(map reference) + 0(padding) = 16bytes</p>
+<p>基本上<code>Shallow Size</code>很容易就算出来</p>
+<p>但是<code>Retained Size</code>就异常的复杂，首先我们要去了解HashMap的结构</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br><span class="line"><span class="keyword">transient</span> Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet;</span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size;</span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> modCount;</span><br><span class="line"><span class="keyword">int</span> threshold;</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">float</span> loadFactor</span><br><span class="line"></span><br><span class="line"><span class="comment">// 来自AbstractMap</span></span><br><span class="line"><span class="keyword">transient</span> Set&lt;K&gt;        keySet;</span><br><span class="line"><span class="keyword">transient</span> Collection&lt;V&gt; values;</span><br></pre></td></tr></table></figure>
+
+<p>Node的结构如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line"><span class="keyword">final</span> K key;</span><br><span class="line">V value;</span><br><span class="line">Node&lt;K,V&gt; next;</span><br></pre></td></tr></table></figure>
+
+<p>注：此处的K，V是<code>String</code>类型</p>
+<p>再看<code>String</code>的结构</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The value is used for character storage. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Cache the hash code for the string */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> hash; <span class="comment">// Default to 0</span></span><br></pre></td></tr></table></figure>
+
+<p>以下是自己的计算过程，结果是对了，但不知道具体过程是否正确，仅供参考！！！</p>
+<ul>
+<li><p>D对象<code>12(D header) + 4(map reference)</code>=16</p>
+</li>
+<li><p>HashMap：<code>12(header) + 4(table ref) + 4(entrySet ref) + 4(size) + 4(modCount) + 4(thresload) + 4(float) + 4(keySet ref) + 4(values ref) + 4(padding)=48</code></p>
+</li>
+<li><p>Node[]: <code>16(header) + 4(hash) + 4(key ref) + 4(val ref) + 4(next ref) + 0(padding)=32</code></p>
+</li>
+<li><p>K与V：<code>(12(hader) + 4(hash) + 4(value ref) + (16(value header) + 1 * 2(char)) + 2(padding) = 40) * 2=80</code></p>
+</li>
+</ul>
+<p>最终：16 + 48 + 32 + 80 = 176！！！</p>
+<p><img src="https://i.loli.net/2019/09/17/qQoZa59YGDXKPbs.png" alt></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>最后总结一下，计算一个对象的大小需要注意一下几步：</p>
+<ul>
+<li><p>Shallow 与Retained的区别；</p>
+</li>
+<li><p>对象本身的大小；</p>
+</li>
+<li><p>对象引用的对象也要注意对其补充，保证其也是被8整除的；</p>
+</li>
+<li><p>机器位数</p>
+</li>
+</ul>
+<p>能快速估算出每一个对象占用空间的大小可以在编程的时候正确选择数据结构，有兴趣得可以看一下这一节</p>
+<blockquote>
+<p>“5.2.6 不恰当数据结构导致内存占用过大”</p>
+</blockquote>
+<blockquote>
+<p>摘录来自: 周志明. “深入理解Java虚拟机：JVM高级特性与最佳实践。” iBooks. </p>
+</blockquote>
+<p>当然了，就算不知道怎么估算，最终还是有神器<code>Jprofile</code>帮助我们监控性能与优化~</p>
+<p>参考：</p>
+<p><a href="https://www.cnblogs.com/zhanjindong/p/3757767.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhanjindong/p/3757767.html</a><br><a href="https://blog.csdn.net/ITer_ZC/article/details/41822719" target="_blank" rel="noopener">https://blog.csdn.net/ITer_ZC/article/details/41822719</a><br><a href="https://segmentfault.com/a/1190000006933272" target="_blank" rel="noopener">https://segmentfault.com/a/1190000006933272</a><br><a href="https://www.jianshu.com/p/40faea07d4d2" target="_blank" rel="noopener">https://www.jianshu.com/p/40faea07d4d2</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    <div>
+          
+            
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/09/18/1/">Java中对象占用内存大小计算</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 wangxc 的个人博客">wangxc</a></p>
+  <p><span>发布时间:</span>2019年09月18日 - 00:09</p>
+  <p><span>最后更新:</span>2019年09月18日 - 00:09</p>
+  <p><span>原始链接:</span><a href="/2019/09/18/1/" title="Java中对象占用内存大小计算">http://blog.wangxc.club/2019/09/18/1/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://blog.wangxc.club/2019/09/18/1/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+          
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://i.loli.net/2017/12/29/5a4632028eaeb.jpg" alt="wangxc 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://i.loli.net/2017/12/29/5a46320234b1d.jpg" alt="wangxc 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+              -------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------
+        </div>
+    
+</div>
+
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          
+            <a href="/tags/面试/" rel="tag"><i class="fa fa-tag"></i> 面试</a>
+          
+            <a href="/tags/性能/" rel="tag"><i class="fa fa-tag"></i> 性能</a>
+          
+            <a href="/tags/内存/" rel="tag"><i class="fa fa-tag"></i> 内存</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/03/1/" rel="next" title="Mybatis中单双引号引发的惨案">
+                <i class="fa fa-chevron-left"></i> Mybatis中单双引号引发的惨案
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/25/1/" rel="prev" title="2019程序员个人面试随笔">
+                2019程序员个人面试随笔 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="wangxc">
+            
+              <p class="site-author-name" itemprop="name">wangxc</p>
+              <p class="site-description motion-element" itemprop="description">革命尚未成功，同志还需努力~</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">80</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">118</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/vector4wang" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:vector4wang@qq.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.jianshu.com/u/223a1314e818" target="_blank" title="简书" rel="external nofollow"><i class="fa fa-fw fa-book"></i>简书</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/qqhjqs?viewmode=contents" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/BMHJQS" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/" target="_blank" title="FB Page" rel="external nofollow"><i class="fa fa-fw fa-facebook-official"></i>FB Page</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#byte与bit"><span class="nav-number">1.</span> <span class="nav-text">byte与bit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表"><span class="nav-number">2.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java中对象占用内存大小"><span class="nav-number">3.</span> <span class="nav-text">Java中对象占用内存大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的组成"><span class="nav-number">4.</span> <span class="nav-text">对象的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#对象头-Header"><span class="nav-number">4.0.1.</span> <span class="nav-text">对象头(Header)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例数据-Instance-Data"><span class="nav-number">4.0.2.</span> <span class="nav-text">实例数据(Instance Data)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对其补充-Padding"><span class="nav-number">4.0.3.</span> <span class="nav-text">对其补充(Padding)</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#实战"><span class="nav-number">5.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Shallow-与-Retained区别"><span class="nav-number">5.1.</span> <span class="nav-text">Shallow 与 Retained区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例一："><span class="nav-number">5.2.</span> <span class="nav-text">实例一：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例二"><span class="nav-number">5.3.</span> <span class="nav-text">实例二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例三"><span class="nav-number">5.4.</span> <span class="nav-text">实例三</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例四"><span class="nav-number">5.5.</span> <span class="nav-text">实例四</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxc</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Mist</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'YdGFHBfuDwObik8qwCeRAWgr-gzGzoHsz',
+        appKey: 'oFpbJwmMQf98DfFDUlzE5Fai',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
