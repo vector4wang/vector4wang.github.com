@@ -218,15 +218,15 @@ module2
 
 ```
 DROP TEMPORARY FUNCTION fun1;
-DELETE jar hdfs:///tmp/udf/fun_v3.0.jar;
-ADD jar hdfs:///tmp/udf/fun_v3.0.jar;
+DELETE jar hdfs:///tmp/udf/fun1_v3.0.jar;
+ADD jar hdfs:///tmp/udf/fun1_v3.0.jar;
 CREATE TEMPORARY FUNCTION fun1 'com.quick.udf.fun1';
 
 select fun1(1,2,3,4,5)
 
-DELETE jar hdfs:///tmp/udf/fun_v3.0.jar;
 DROP TEMPORARY FUNCTION fun2;
-ADD jar hdfs:///tmp/udf/fun_v3.0.jar;
+DELETE jar hdfs:///tmp/udf/fun2_v3.0.jar;
+ADD jar hdfs:///tmp/udf/fun2_v3.0.jar;
 CREATE TEMPORARY FUNCTION fun2 'com.quick.seudf.fun2';
 
 select fun2(1,2,3) from table b
